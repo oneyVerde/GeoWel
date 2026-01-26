@@ -312,8 +312,9 @@ def index() -> rx.Component:
                     # [View 1] 전국 메인 화면: 버튼(좌) + 테이블(우)
                     # =========================================================
                     rx.vstack(
-                        rx.heading("전국 통합돌봄 현황", size="6", margin_bottom="10px", text_align="center",
-                                   font_weight="bold"),
+                        rx.heading(
+                            "전국 통합돌봄 현황", size="6", margin_bottom="10px", text_align="center",
+                                   font_weight="bold", color="black", text_shadow="2px 2px 3px #68e1f8"),
 
                         # [핵심 수정] 가로 배치 (버튼 스택 + 테이블 박스)
                         rx.hstack(

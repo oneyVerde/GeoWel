@@ -10,3 +10,7 @@ venv/
 .idea/
 *.pyc
 
+assets/service.xlsx
+assets/layout.xlsx
+assets/service_test.xlsx
+assets/layout_test.xlsx
