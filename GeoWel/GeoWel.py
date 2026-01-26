@@ -314,7 +314,7 @@ def index() -> rx.Component:
                     rx.vstack(
                         rx.heading(
                             "전국 통합돌봄 현황", size="6", margin_bottom="10px", text_align="center",
-                                   font_weight="bold", color="black", text_shadow="2px 2px 3px #68e1f8"),
+                                   font_weight="bold"),
 
                         # [핵심 수정] 가로 배치 (버튼 스택 + 테이블 박스)
                         rx.hstack(
@@ -464,9 +464,11 @@ def index() -> rx.Component:
                             align_items="start",
                             spacing="1"  # [수정] 버튼과 테이블 사이 간격 1
                         ),
-
-                        rx.text(
-                            rx.text("* 발췌일자: 1) 2026.1.12.", as_="span"),
+                        # main 발췌일자
+                        rx.vstack(
+                    rx.text("* 발췌일자", margin_left="20px", as_="span"),
+                            rx.text(
+                                "1) 2026.1.12. / 예산지원형: 2025.2.17.~2026.1.9., 기술지원형: 2025.7.14~2026.1.9. 접수일 기준", margin_left="20px", as_="span"),
                             rx.text("2) 2025.12.1.", margin_left="20px", as_="span"),
                             rx.text("3) 2025.12.31.", margin_left="20px", as_="span"),
                             font_size="16px",
