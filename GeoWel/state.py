@@ -316,7 +316,7 @@ class State(rx.State):
                     yref="paper",
                     text=f"<b>(단위: %, 발췌일자: {extract_date}<sup>*</sup>)\
                     <br><span style='font-size: 14px'>* 예산지원형: 2025.2.17.~2026.1.9.,\
-                    <br><span style='font-size: 14px'>기술지원형: 2025.7.14~2026.1.9. 접수일 기준</b>",
+                    <br><span style='font-size: 14px'>   기술지원형: 2025.7.14~2026.1.9. 접수일 기준</b>",
                     showarrow=False,
                     font=dict(
                         size=17,

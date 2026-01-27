@@ -134,59 +134,63 @@ def index() -> rx.Component:
                             padding="1",
                             border_radius="5px"
                         ),
-
                         # --- [Row 2] F1 영역 ---
-                        rx.hstack(
-                            rx.vstack(
+                        rx.vstack(
+                            rx.hstack(
                                 # 왼쪽: 버튼
-                                rx.button(
-                                    rx.text("퇴원 환자 지원 현황", line_height="1.2", font_size="17px", font_weight="bold"),
-                                    on_click=State.toggle_f1_chart,
-                                    width="100%",
-                                    height="55px",
-                                    bg="#ffd3a7", # f1 버튼
-                                    margin_top="5px",
-                                    margin_left="5px",
-                                    color="#333333",
-                                    font_weight="bold",
-                                    transition="all 0.2s ease-in-out",
-                                    _active={
-                                        "transform": "translateY(1px)"
-                                    },
-                                    _hover={
-                                        "transform": "scale(1.05)",
-                                        "color": "black",
-                                    },
+                                rx.box(
+                                    rx.button(
+                                        "퇴원 환자 지원 현황",
+                                        font_size="17px",
+                                        on_click=State.toggle_f1_chart,
+                                        width="100%",
+                                        height="55px",
+                                        bg="#ffd3a7",  # f1 버튼
+                                        margin_top="15px",
+                                        margin_left="15px",
+                                        color="#333333",
+                                        font_weight="bold",
+                                        transition="all 0.2s ease-in-out",
+                                        _active={
+                                            "transform": "translateY(1px)"
+                                        },
+                                        _hover={
+                                            "transform": "scale(1.05)",
+                                            "color": "black",
+                                        },
+                                    ),
+                                    width="20%",
+                                    min_width="200px",
+                                    margin_right="13px"
                                 ),
-                                rx.text(
-                                    "* 발췌일자: 2025.12.31.",
-                                    font_size="16px",
-                                    color="#333333",
-                                    margin_top="5px",
-                                    text_align="center",
-                                    width="100%",
-                                    font_weight="bold"
+                                # 오른쪽: 표
+                                rx.box(
+                                    rx.data_table(data=State.f1_table_data, columns=State.f1_columns, size="1"),
+                                    flex="1",
+                                    overflow="auto",
+                                    margin_top="10px",
+                                    margin_right="15px",
+                                    class_name="f0-table",
                                 ),
-                                width="20%",
-                                margin_top="10px",
-                                margin_left="15px",
-                                align_items="center",
-                                spacing="0"
+                                width="100%",
+                                align_items="start"
                             ),
-
-                            # 오른쪽: 표 (Table)
-                            rx.box(
-                                rx.data_table(data=State.f1_table_data, columns=State.f1_columns, size="1"),
-                                flex="1",
-                                overflow="auto",
-                                margin_top="10px",
-                                margin_right="15px",
-                                class_name="f1-table"
+                            rx.text(
+                                "* 발췌일자: 2025.12.31.",
+                                font_size="16px",
+                                color="#333333",
+                                margin_top="-10px",
+                                text_align="left",
+                                width="100%",
+                                font_weight="bold",
+                                padding_left="5px",
+                                margin_left="10px"
                             ),
-
-                            align_items="stretch",
                             width="100%",
-                            border="1px solid #eee", padding="1", border_radius="5px"
+                            height="100%",
+                            border="1px solid #eee",
+                            padding="1",
+                            border_radius="5px"
                         ),
 
                         # --- [Row 3] F2 영역 ---
@@ -573,7 +577,6 @@ def index() -> rx.Component:
                                         font_weight="bold",
                                         margin_bottom="70px"
                                     ),
-
                                     align_items="left",
                                     width="100%",
                                     padding="20px"
@@ -604,7 +607,6 @@ def index() -> rx.Component:
                                     ),
                                     width="100%",
                                     padding="10px",
-                                    flex="1",
                                     overflow_y="auto"
                                 ),
                                 rx.box(
