@@ -77,112 +77,120 @@ def index() -> rx.Component:
                         rx.heading(f"{State.selected_region_kr} 통합돌봄 현황", size="5", padding_top="10px"),
 
                         # --- [Row 1] F0 영역 ---
-                        rx.hstack(
-                            rx.vstack(
+                        rx.vstack(
+                            rx.hstack(
                                 # 왼쪽: 버튼
-                                rx.button(
-                                    "신청 및 연계 현황",
-                                    font_size="17px",
-                                    on_click=State.toggle_f0_chart,
-                                    width="100%",
-                                    height="55px",
-                                    bg="#d7f0bd", # f0 버튼
-                                    margin_top="5px",
-                                    margin_left="5px",
-                                    color="#333333",
-                                    font_weight="bold",
-                                    transition="all 0.2s ease-in-out",
-                                    _active={
-                                        "transform": "translateY(1px)"
-                                    },
-                                    _hover={
-                                        "transform": "scale(1.05)",
-                                        "color": "black",
-                                    },
+                                rx.box(
+                                    rx.button(
+                                        "신청 및 연계 현황",
+                                        font_size="17px",
+                                        on_click=State.toggle_f0_chart,
+                                        width="100%",
+                                        height="55px",
+                                        bg="#d7f0bd",  # f0 버튼
+                                        margin_top="15px",
+                                        margin_left="15px",
+                                        color="#333333",
+                                        font_weight="bold",
+                                        transition="all 0.2s ease-in-out",
+                                        _active={
+                                            "transform": "translateY(1px)"
+                                        },
+                                        _hover={
+                                            "transform": "scale(1.05)",
+                                            "color": "black",
+                                        },
+                                    ),
+                                    width="20%",
+                                    min_width="200px",
+                                    margin_right="13px"
                                 ),
-                                rx.text(
-                                    "* 발췌일자: 2026.1.12.",
-                                    font_size="16px",
-                                    color="#333333",
-                                    margin_top="5px",
-                                    text_align="center",
-                                    width="100%",
-                                    font_weight="bold"
+                                # 오른쪽: 표
+                                rx.box(
+                                    rx.data_table(data=State.f0_table_data, columns=State.f0_columns, size="1"),
+                                    flex="1",
+                                    overflow="auto",
+                                    margin_top="10px",
+                                    margin_right="15px",
+                                    class_name="f0-table",
                                 ),
-                                width="20%",
-                                margin_top="10px",
-                                margin_left="15px",
-                                align_items="center",
-                                spacing="0"
+                                width="100%",
+                                align_items="start"
                             ),
-                            # 오른쪽: 표 (Table)
-                            rx.box(
-                                rx.data_table(data=State.f0_table_data, columns=State.f0_columns, size="1"),
-                                flex="1",
-                                overflow="auto",
-                                margin_top="10px",
-                                margin_right="15px",
-                                class_name="f0-table",
+                            rx.text(
+                                "* 발췌일자: 1) 2026.1.12. / 예산지원형: 2025.2.17.~2026.1.9., 기술지원형: 2025.7.14~2026.1.9. 접수일 기준",
+                                font_size="16px",
+                                color="#333333",
+                                margin_top="-10px",
+                                text_align="left",
+                                width="100%",
+                                font_weight="bold",
+                                padding_left="5px",
+                                margin_left="10px"
                             ),
-                            align_items="stretch",
-                            justify="center",
                             width="100%",
                             height="100%",
-                            border="1px solid #eee", padding="1", border_radius="5px"
+                            border="1px solid #eee",
+                            padding="1",
+                            border_radius="5px"
                         ),
-
                         # --- [Row 2] F1 영역 ---
-                        rx.hstack(
-                            rx.vstack(
+                        rx.vstack(
+                            rx.hstack(
                                 # 왼쪽: 버튼
-                                rx.button(
-                                    rx.text("퇴원 환자 지원 현황", line_height="1.2", font_size="17px", font_weight="bold"),
-                                    on_click=State.toggle_f1_chart,
-                                    width="100%",
-                                    height="55px",
-                                    bg="#ffd3a7", # f1 버튼
-                                    margin_top="5px",
-                                    margin_left="5px",
-                                    color="#333333",
-                                    font_weight="bold",
-                                    transition="all 0.2s ease-in-out",
-                                    _active={
-                                        "transform": "translateY(1px)"
-                                    },
-                                    _hover={
-                                        "transform": "scale(1.05)",
-                                        "color": "black",
-                                    },
+                                rx.box(
+                                    rx.button(
+                                        "퇴원 환자 지원 현황",
+                                        font_size="17px",
+                                        on_click=State.toggle_f1_chart,
+                                        width="100%",
+                                        height="55px",
+                                        bg="#ffd3a7",  # f1 버튼
+                                        margin_top="15px",
+                                        margin_left="15px",
+                                        color="#333333",
+                                        font_weight="bold",
+                                        transition="all 0.2s ease-in-out",
+                                        _active={
+                                            "transform": "translateY(1px)"
+                                        },
+                                        _hover={
+                                            "transform": "scale(1.05)",
+                                            "color": "black",
+                                        },
+                                    ),
+                                    width="20%",
+                                    min_width="200px",
+                                    margin_right="13px"
                                 ),
-                                rx.text(
-                                    "* 발췌일자: 2025.12.31.",
-                                    font_size="16px",
-                                    color="#333333",
-                                    margin_top="5px",
-                                    text_align="center",
-                                    width="100%",
-                                    font_weight="bold"
+                                # 오른쪽: 표
+                                rx.box(
+                                    rx.data_table(data=State.f1_table_data, columns=State.f1_columns, size="1"),
+                                    flex="1",
+                                    overflow="auto",
+                                    margin_top="10px",
+                                    margin_right="15px",
+                                    class_name="f0-table",
                                 ),
-                                width="20%",
-                                margin_top="10px",
-                                margin_left="15px",
-                                align_items="center",
-                                spacing="0"
+                                width="100%",
+                                align_items="start"
                             ),
-
-                            # 오른쪽: 표 (Table)
-                            rx.box(
-                                rx.data_table(data=State.f1_table_data, columns=State.f1_columns, size="1"),
-                                flex="1",
-                                overflow="auto",
-                                margin_top="10px",
-                                margin_right="15px",
-                                class_name="f1-table"
+                            rx.text(
+                                "* 발췌일자: 2025.12.31.",
+                                font_size="16px",
+                                color="#333333",
+                                margin_top="-10px",
+                                text_align="left",
+                                width="100%",
+                                font_weight="bold",
+                                padding_left="5px",
+                                margin_left="10px"
                             ),
-
-                            align_items="stretch",
                             width="100%",
-                            border="1px solid #eee", padding="1", border_radius="5px"
+                            height="100%",
+                            border="1px solid #eee",
+                            padding="1",
+                            border_radius="5px"
                         ),
 
                         # --- [Row 3] F2 영역 ---
@@ -243,7 +251,7 @@ def index() -> rx.Component:
                         ),
                         spacing="2",
                         width="100%",
-                        height="100%",
+                        height="auto",
                         overflow_y="auto",
                         padding="10px"
                     ),
@@ -312,7 +320,8 @@ def index() -> rx.Component:
                     # [View 1] 전국 메인 화면: 버튼(좌) + 테이블(우)
                     # =========================================================
                     rx.vstack(
-                        rx.heading("전국 통합돌봄 현황", size="6", margin_bottom="10px", text_align="center",
+                        rx.heading(
+                            "전국 통합돌봄 현황", size="6", margin_bottom="10px", text_align="center",
                                    font_weight="bold"),
 
                         # [핵심 수정] 가로 배치 (버튼 스택 + 테이블 박스)
@@ -463,17 +472,32 @@ def index() -> rx.Component:
                             align_items="start",
                             spacing="1"  # [수정] 버튼과 테이블 사이 간격 1
                         ),
-
-                        rx.text(
-                            rx.text("* 발췌일자: 1) 2026.1.12.", as_="span"),
-                            rx.text("2) 2025.12.1.", margin_left="20px", as_="span"),
-                            rx.text("3) 2025.12.31.", margin_left="20px", as_="span"),
-                            font_size="16px",
-                            color="#333333",
-                            margin_top="10px",
-                            width="100%",
-                            text_align="left",
-                            font_weight="bold"
+                        # main 발췌일자
+                        rx.vstack(
+                            rx.hstack(
+                                rx.text("※ 발췌일자", margin_left="20px", as_="span"),
+                                rx.text(
+                                    "1) 2026.1.12.", rx.el.sup("*"), margin_left="20px", as_="span"),
+                                rx.text("2) 2025.12.1.", margin_left="20px", as_="span"),
+                                rx.text("3) 2025.12.31.", margin_left="20px", as_="span"),
+                                font_size="16px",
+                                color="#333333",
+                                margin_top="5px",
+                                width="100%",
+                                text_align="left",
+                                font_weight="bold"
+                            ),
+                            rx.text("* 예산지원형: 2025.2.17.~2026.1.9., 기술지원형: 2025.7.14~2026.1.9. 접수일 기준",
+                                    font_size="14px",
+                                    color="#333333",
+                                    margin_top="10px",
+                                    margin_left="130px",
+                                    width="100%",
+                                    text_align="left",
+                                    font_weight="bold",
+                                    as_="span"
+                            ),
+                            spacing="0"
                         ),
                         width="100%",
                         height="100%",
@@ -553,7 +577,6 @@ def index() -> rx.Component:
                                         font_weight="bold",
                                         margin_bottom="70px"
                                     ),
-
                                     align_items="left",
                                     width="100%",
                                     padding="20px"
@@ -584,7 +607,6 @@ def index() -> rx.Component:
                                     ),
                                     width="100%",
                                     padding="10px",
-                                    flex="1",
                                     overflow_y="auto"
                                 ),
                                 rx.box(
@@ -625,6 +647,12 @@ def index() -> rx.Component:
 # main table
 def render_main_row(row: dict):
     row_border_style = "1.5px solid #E2E2E2"
+    highlight_row = "전국"
+    text_color = rx.cond(
+        row["구분_Unnamed: 0_level_1"] == highlight_row,
+        "#0069e3",
+        "#333333"
+    )
     return rx.table.row(
         # 1. 구분
         rx.table.cell(row["구분_Unnamed: 0_level_1"], text_align="center", border_right=row_border_style),
@@ -648,7 +676,8 @@ def render_main_row(row: dict):
 
         height="37px",
         align="center",
-        _hover={"bg": "#f5f5f5"}
+        _hover={"bg": "#f5f5f5"},
+        color=text_color
     )
 
 global_style = {

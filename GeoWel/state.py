@@ -310,16 +310,19 @@ class State(rx.State):
             margin=dict(b=100, t=120),
             annotations=[
                 dict(
-                    x=1,
-                    y=0.96,
+                    x=1.1,
+                    y=0.94,
                     xref="paper",
                     yref="paper",
-                    text=f"<b>(단위: %, 발췌일자: {extract_date})</b>",
+                    text=f"<b>(단위: %, 발췌일자: {extract_date}<sup>*</sup>)\
+                    <br><span style='font-size: 14px'>* 예산지원형: 2025.2.17.~2026.1.9.,\
+                    <br><span style='font-size: 14px'>   기술지원형: 2025.7.14~2026.1.9. 접수일 기준</b>",
                     showarrow=False,
                     font=dict(
                         size=17,
                         color="#1B1B1B"
                     ),
+                    align="left",
                     xanchor="right",
                     yanchor="bottom"
                 )
@@ -340,7 +343,7 @@ class State(rx.State):
             yaxis=dict(
                 tickformat=',.0f',
                 dtick=10,
-                range=[0, 110],
+                range=[0, 80],
                 tickfont=dict(
                     size=14,
                     family="Arial Black, sans-serif"
