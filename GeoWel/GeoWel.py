@@ -251,7 +251,7 @@ def index() -> rx.Component:
                         ),
                         spacing="2",
                         width="100%",
-                        height="100%",
+                        height="auto",
                         overflow_y="auto",
                         padding="10px"
                     ),
