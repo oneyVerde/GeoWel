@@ -1,5 +1,7 @@
 import reflex as rx
 from .state import State
+from .styles import Color, Button, Text, Config
+from . import components as CMP
 
 def index() -> rx.Component:
     return rx.hstack(
@@ -79,54 +81,26 @@ def index() -> rx.Component:
                         # --- [Row 1] F0 영역 ---
                         rx.vstack(
                             rx.hstack(
-                                # 왼쪽: 버튼
-                                rx.box(
-                                    rx.button(
-                                        "신청 및 연계 현황",
-                                        font_size="17px",
-                                        on_click=State.toggle_f0_chart,
-                                        width="100%",
-                                        height="55px",
-                                        bg="#d7f0bd",  # f0 버튼
-                                        margin_top="15px",
-                                        margin_left="15px",
-                                        color="#333333",
-                                        font_weight="bold",
-                                        transition="all 0.2s ease-in-out",
-                                        _active={
-                                            "transform": "translateY(1px)"
-                                        },
-                                        _hover={
-                                            "transform": "scale(1.05)",
-                                            "color": "black",
-                                        },
-                                    ),
-                                    width="20%",
-                                    min_width="200px",
-                                    margin_right="13px"
+                                # f0 버튼
+                                CMP.chart_button_area(
+                                    CMP.chart_button(
+                                        Config.F0_CONFIG,
+                                        State.toggle_f0_chart
+                                    )
                                 ),
-                                # 오른쪽: 표
-                                rx.box(
-                                    rx.data_table(data=State.f0_table_data, columns=State.f0_columns, size="1"),
-                                    flex="1",
-                                    overflow="auto",
-                                    margin_top="10px",
-                                    margin_right="15px",
-                                    class_name="f0-table",
+                                # f0 표
+                                CMP.table_area(
+                                    CMP.table(
+                                        data=State.f0_table_data,
+                                        columns=State.f0_columns
+                                    ),
+                                    class_name="f0-table"
                                 ),
                                 width="100%",
                                 align_items="start"
                             ),
-                            rx.text(
-                                "* 발췌일자: 1) 2026.1.12. / 예산지원형: 2025.2.17.~2026.1.9., 기술지원형: 2025.7.14~2026.1.9. 접수일 기준",
-                                font_size="16px",
-                                color="#333333",
-                                margin_top="-10px",
-                                text_align="left",
-                                width="100%",
-                                font_weight="bold",
-                                padding_left="5px",
-                                margin_left="10px"
+                            CMP.date_text(
+                                Text.F0_DATE
                             ),
                             width="100%",
                             height="100%",
@@ -137,54 +111,26 @@ def index() -> rx.Component:
                         # --- [Row 2] F1 영역 ---
                         rx.vstack(
                             rx.hstack(
-                                # 왼쪽: 버튼
-                                rx.box(
-                                    rx.button(
-                                        "퇴원 환자 지원 현황",
-                                        font_size="17px",
-                                        on_click=State.toggle_f1_chart,
-                                        width="100%",
-                                        height="55px",
-                                        bg="#ffd3a7",  # f1 버튼
-                                        margin_top="15px",
-                                        margin_left="15px",
-                                        color="#333333",
-                                        font_weight="bold",
-                                        transition="all 0.2s ease-in-out",
-                                        _active={
-                                            "transform": "translateY(1px)"
-                                        },
-                                        _hover={
-                                            "transform": "scale(1.05)",
-                                            "color": "black",
-                                        },
-                                    ),
-                                    width="20%",
-                                    min_width="200px",
-                                    margin_right="13px"
+                                # f1 버튼
+                                CMP.chart_button_area(
+                                    CMP.chart_button(
+                                        Config.F1_CONFIG,
+                                        State.toggle_f1_chart
+                                    )
                                 ),
-                                # 오른쪽: 표
-                                rx.box(
-                                    rx.data_table(data=State.f1_table_data, columns=State.f1_columns, size="1"),
-                                    flex="1",
-                                    overflow="auto",
-                                    margin_top="10px",
-                                    margin_right="15px",
-                                    class_name="f0-table",
+                                # f1 표
+                                CMP.table_area(
+                                    CMP.table(
+                                        data=State.f1_table_data,
+                                        columns=State.f1_columns
+                                    ),
+                                    class_name="f1-table"
                                 ),
                                 width="100%",
                                 align_items="start"
                             ),
-                            rx.text(
-                                "* 발췌일자: 2025.12.31.",
-                                font_size="16px",
-                                color="#333333",
-                                margin_top="-10px",
-                                text_align="left",
-                                width="100%",
-                                font_weight="bold",
-                                padding_left="5px",
-                                margin_left="10px"
+                            CMP.date_text(
+                                Text.F1_DATE
                             ),
                             width="100%",
                             height="100%",
