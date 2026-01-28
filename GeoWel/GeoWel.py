@@ -82,14 +82,14 @@ def index() -> rx.Component:
                         rx.vstack(
                             rx.hstack(
                                 # f0 버튼
-                                CMP.chart_button_area(
-                                    CMP.chart_button(
+                                CMP.bar_chart_button_box(
+                                    CMP.bar_chart_button(
                                         Config.F0_CONFIG,
                                         State.toggle_f0_chart
                                     )
                                 ),
                                 # f0 표
-                                CMP.table_area(
+                                CMP.table_box(
                                     CMP.table(
                                         data=State.f0_table_data,
                                         columns=State.f0_columns
@@ -112,14 +112,14 @@ def index() -> rx.Component:
                         rx.vstack(
                             rx.hstack(
                                 # f1 버튼
-                                CMP.chart_button_area(
-                                    CMP.chart_button(
+                                CMP.bar_chart_button_box(
+                                    CMP.bar_chart_button(
                                         Config.F1_CONFIG,
                                         State.toggle_f1_chart
                                     )
                                 ),
                                 # f1 표
-                                CMP.table_area(
+                                CMP.table_box(
                                     CMP.table(
                                         data=State.f1_table_data,
                                         columns=State.f1_columns
@@ -141,39 +141,12 @@ def index() -> rx.Component:
 
                         # --- [Row 3] F2 영역 ---
                         rx.vstack(
-                            # 위쪽: 버튼
-                            rx.button(
-                                "자원 현황", # f2 버튼
-                                font_size="17px",
-                                width="20%",
-                                height="50px",
-                                bg="#fff5b1",
-
-                                color="#333333",
-                                font_weight="bold",
-
-                                cursor="default",
-                                disabled=True,
-                                _hover={"bg": "#fff5b1"},
-                                _active={"bg": "#fff5b1"},
-                                margin_left="15px",
-                                margin_top="10px"
+                            # f2 버튼
+                            CMP.pie_chart_button_box(
+                                CMP.pie_chart_button()
                             ),
 
-                            rx.box(
-                                rx.text(
-                                    "* 발췌일자: 2025.12.1.",
-                                    font_size="16px",
-                                    color="#1B1B1B",
-                                    font_weight="bold"
-                                ),
-                                width="100%",
-                                text_align="left",
-                                padding_left="20px",
-                                margin_top="10px"
-                            ),
-
-                            # 오른쪽: 파이차트
+                            # f2 파이차트
                             rx.box(
                                 rx.flex(
                                     rx.foreach(

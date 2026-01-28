@@ -19,17 +19,38 @@ class Button:
         "font_weight": "bold"
     }
 
-    btn_chart_style = {
+    btn_bar_chart_style = {
         "font_size": "17px",
-        "width": "100%",
-        "height": "55px",
-        "margin_top": "15px",
-        "margin_left": "15px",
         "color": Color.BASIC_TEXT,
         "font_weight": "bold",
+
+        "width": "100%",
+        "height": "55px",
         "transition": "all 0.2s ease-in-out",
         "_active": {"transform": "translateY(1px)"},
         "_hover": {"transform": "scale(1.05)", "color": "black"},
+
+        "margin_top": "15px",
+        "margin_left": "15px",
+    }
+
+    btn_pie_chart_style = {
+        "font_size": "17px",
+        "font_weight": "bold",
+
+        "bg": Color.F2_BG,
+        "color": Color.BASIC_TEXT,
+
+        "width": "20%",
+        "height": "55px",
+        "cursor": "default",
+        "disabled": "True",
+        "_hover": {"bg": "#fff5b1"},
+        "_active": {"bg": "#fff5b1"},
+
+        "margin_left": "15px",
+        "margin_top": "10px"
+
     }
 
 class Text:
@@ -42,7 +63,7 @@ class Text:
     # date(발췌일자) text
     F0_DATE = "* 발췌일자: 1) 2026.1.12. / 예산지원형: 2025.2.17.~2026.1.9., 기술지원형: 2025.7.14~2026.1.9. 접수일 기준"
     F1_DATE = "* 발췌일자: 2025.12.31."
-
+    F2_DATE = "* 발췌일자: 2025.12.1."
 
 class Config:
     # F0, F1, F2 버튼
@@ -60,10 +81,17 @@ class Config:
     }
 
 class Layout:
-    CHART_BUTTON_WRAPPER = {
+    BAR_CHART_BUTTON_WRAPPER = {
         "width": "20%",
         "min_width": "200px",
         "margin_right": "13px"
+    }
+    PIE_CHART_BUTTON_WRAPPER = {
+        "width": "100%",
+        "min_width": "200px",
+        "text_align": "left",
+        "padding_left": "20px",
+        "margin_top": "10px"
     }
     TABLE_WRAPPER = {
         "flex": "1",
