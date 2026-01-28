@@ -147,23 +147,8 @@ def index() -> rx.Component:
                             ),
 
                             # f2 파이차트
-                            rx.box(
-                                rx.flex(
-                                    rx.foreach(
-                                        State.f2_pie_figs,
-                                        lambda fig: rx.box(
-                                            rx.plotly(data=fig, config={"displayModeBar": False}, use_resize_handler=True),
-                                            width="320px", min_width="320px", height="300px",
-                                            margin="0px", overflow="hidden"
-                                        )
-                                    ),
-                                    wrap="wrap",
-                                    spacing="0",
-                                    justify="center",
-                                ),
-
-                                flex="1",
-                                overflow="auto"
+                            CMP.pie_chart_grid(
+                                State.f2_pie_figs
                             ),
                             width="100%",
                             border="1px solid #eee", padding="2", border_radius="5px", spacing="0"

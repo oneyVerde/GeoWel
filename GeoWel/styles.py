@@ -19,38 +19,30 @@ class Button:
         "font_weight": "bold"
     }
 
-    btn_bar_chart_style = {
+    btn_chart_style = {
         "font_size": "17px",
-        "color": Color.BASIC_TEXT,
         "font_weight": "bold",
-
+        "color": Color.BASIC_TEXT,
         "width": "100%",
         "height": "55px",
+        "margin_top": "15px",
+        "margin_left": "15px"
+    }
+
+    btn_bar_chart_style = {
+        **btn_chart_style,
         "transition": "all 0.2s ease-in-out",
         "_active": {"transform": "translateY(1px)"},
-        "_hover": {"transform": "scale(1.05)", "color": "black"},
-
-        "margin_top": "15px",
-        "margin_left": "15px",
+        "_hover": {"transform": "scale(1.05)", "color": "black"}
     }
 
     btn_pie_chart_style = {
-        "font_size": "17px",
-        "font_weight": "bold",
-
+        **btn_chart_style,
         "bg": Color.F2_BG,
-        "color": Color.BASIC_TEXT,
-
-        "width": "20%",
-        "height": "55px",
         "cursor": "default",
-        "disabled": "True",
+        "disabled": True,
         "_hover": {"bg": "#fff5b1"},
-        "_active": {"bg": "#fff5b1"},
-
-        "margin_left": "15px",
-        "margin_top": "10px"
-
+        "_active": {"bg": "#fff5b1"}
     }
 
 class Text:
@@ -80,30 +72,44 @@ class Config:
         "bg_color": Color.F2_BG
     }
 
-class Layout:
-    BAR_CHART_BUTTON_WRAPPER = {
-        "width": "20%",
+class Chart:
+    CHART_BUTTON_WRAPPER = {
+        "width": "200px",
         "min_width": "200px",
         "margin_right": "13px"
     }
-    PIE_CHART_BUTTON_WRAPPER = {
-        "width": "100%",
-        "min_width": "200px",
-        "text_align": "left",
-        "padding_left": "20px",
-        "margin_top": "10px"
-    }
     TABLE_WRAPPER = {
+        "width": "100%",
         "flex": "1",
         "overflow": "auto",
         "margin_top": "10px",
         "margin_right": "15px"
     }
-
-class Table:
-    PROPS = {
+    PIE_CHART_WRAPPER = {
+        "flex": "1",
+        "overflow": "auto"
+    }
+    TABLE = {
         "size": "1",
         "width": "100%"
+    }
+    # 파이를 나열하는 그리드
+    PIE_CHART_GRID = {
+        "wrap": "wrap",
+        "spacing": "0",
+        "justify": "center"
+    }
+    # 파이 하나를 감싸는 박스
+    PIE_BOX = {
+        "width": "320px",
+        "min_width": "320px",
+        "height": "300px",
+        "margin": "0px",
+        "overflow": "hidden"
+    }
+    PIE_PLOT = {
+        "displayModeBar": False,
+        "use_resize_handler": True
     }
 
 class Date:
