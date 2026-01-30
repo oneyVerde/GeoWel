@@ -8,56 +8,22 @@ def index() -> rx.Component:
         # =========================================================
         # [왼쪽 패널] 지도 공간 (40%)
         # =========================================================
-        rx.box(
+        CMP.map_box(
             rx.vstack(
                 rx.heading("지역별 통합돌봄 사업 현황", size="7", padding_top="30px"),
-                        rx.text(
-                            State.selected_region_kr,
-                            size="6",
-                            font_weight="bold",
-                            color="black",
-                            padding_top="20px",
-                            padding_bottom="10px"
+                        CMP.region_name(
+                            State.selected_region_kr
                         ),
-                        rx.el.svg(
-                            rx.foreach(
-                                State.map_paths,
-                                lambda item: rx.el.path(
-                                    rx.el.title(item["name_kr"]),
-                                    d=item["d"],
-                                    fill=item["fill"],
-                                    stroke="white",
-                                    stroke_width="1",
-                                    on_click=lambda: State.handle_map_click(item),
-                                    _hover={
-                                        "fill": "#787878",
-                                        "cursor": "pointer",
-                                        "stroke": "black"
-                                    },
-                                    transition="all 0.2s ease"
-                                )
-                            ),
-                            viewBox="-1500 -1000 5000 3000",
-                            width="100%",
-                            height="100vh",
-                            preserveAspectRatio="xMidYMid meet",
-                            padding_left="100px",
-                            padding_top="80px"
+                        CMP.map_cmp(
+                            State.map_paths,
+                            State.handle_map_click
                         ),
                 width="100%",
                 height="100%",
                 align_items="center",
                 spacing="5",
             ),
-            width="40%",
-            height="100vh",
-            bg="#ffffff",
-            border_right="1px solid #e0e0e0",
-            overflow="hidden",
-            position="relative",
-            z_index="999",
-
-            on_mount=State.load_map_data
+            State.load_map_data
         ),
 
         # =========================================================
@@ -514,7 +480,6 @@ def index() -> rx.Component:
 
                     )
                 )
-                # ==
             ),
             align_items="center",
             width="60%",

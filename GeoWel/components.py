@@ -1,5 +1,5 @@
 import reflex as rx
-from .styles import Button, Chart, Date, Text
+from .styles import Button, Chart, Date, Text, Title, Map
 
 # [Back] 이전 버튼
 def back_button(on_click_handler):
@@ -102,4 +102,36 @@ def date_text(text: str) -> rx.Component:
     return rx.text(
         text,
         **Date.TEXT
+    )
+
+# [Text] 선택된 지역명
+def region_name(region: str) -> rx.Component:
+    # region: 지역명
+    return rx.text(
+        region,
+        **Title.REGION
+    )
+
+# [Map] svg 지도
+def map_cmp(data, on_click_handler):
+    return rx.el.svg(
+        rx.foreach(
+            data,
+            lambda item: rx.el.path(
+                rx.el.title(item["name_kr"]),
+                d=item["d"],
+                fill=item["fill"],
+                on_click=lambda: on_click_handler(item),
+                **Map.MAP_PATH
+            )
+        ),
+        **Map.MAP_CONTAINER
+    )
+
+# [Map] 지도 box
+def map_box(child_component, mount):
+    return rx.box(
+        child_component,
+        **Map.MAP_BOX_WRAPPER,
+        on_mount=mount
     )

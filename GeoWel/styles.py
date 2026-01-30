@@ -10,6 +10,7 @@ class Color:
 
     DATE_TEXT = "#1B1B1B" # 진한 회색
     BASIC_TEXT = "#333333" # 회색
+    MAP_BG = "#ffffff"
 
 class Button:
     btn_back_style = {
@@ -74,6 +75,13 @@ class Config:
     }
 
 class Chart:
+    CHART_WRAPPER = {
+        "align_items": "center",
+        "width": "60%", # 차트 화면 비율
+        "height": "100%",
+        "overflow": "flex",
+        "z_index": "1"
+    }
     CHART_BUTTON_WRAPPER = {
         "width": "200px",
         "min_width": "200px",
@@ -141,4 +149,44 @@ class Date:
         "padding_left": "5px",
         "margin_left": "10px",
         "margin_top": "-10px"
+    }
+
+class Title:
+    REGION = {
+        "size": "6",
+        "font_weight": "bold",
+        "color": "black",
+        "padding_top": "20px",
+        "padding_bottom": "10px"
+    }
+
+class Map:
+    MAP_PATH = {
+        "stroke": "white",
+        "stroke_width": "1",
+        "transition": "all 0.2s ease",
+        "_hover": {
+            "fill": "#787878",
+            "cursor": "pointer",
+            "stroke": "black"
+        }
+    }
+
+    MAP_CONTAINER = {
+        "width": "100%",
+        "height": "100%",
+        "padding_left": "100px",
+        "padding_top": "80px",
+        # SVG 속성
+        "preserveAspectRatio": "xMidYMid meet",
+        "viewBox": "-1500 -1000 5000 3000"
+    }
+
+    MAP_BOX_WRAPPER = {
+        "width": "40%", # 지도 화면 비율
+        "height": "100%",
+        "bg": Color.MAP_BG,
+        "overflow": "hidden",
+        "position": "relative",
+        "z_index": "9"
     }
