@@ -16,7 +16,8 @@ class Button:
         "color_scheme": "gray",
         "variant": "outline",
         "color": Color.BASIC_TEXT,
-        "font_weight": "bold"
+        "font_weight": "bold",
+        "margin": "20px"
     }
 
     btn_chart_style = {
@@ -85,6 +86,19 @@ class Chart:
         "margin_top": "10px",
         "margin_right": "15px"
     }
+    BAR_CHART_WRAPPER = {
+        "width": "100%",
+        "height": "100%",
+        "padding": "20",
+        "flex": "1",
+        "display": "flex",
+        "justifyContent": "center",
+        "alignItems": "center",
+        "overflow": "auto",
+        "style": {
+            "zoom": "0.95"
+        }
+    }
     PIE_CHART_WRAPPER = {
         "flex": "1",
         "overflow": "auto"
@@ -110,6 +124,11 @@ class Chart:
     PIE_PLOT = {
         "displayModeBar": False,
         "use_resize_handler": True
+    }
+    BAR_CHART_PLOT = {
+        "use_resize_handler": True,
+        "width": "100%",
+        "height": "90%",
     }
 
 class Date:

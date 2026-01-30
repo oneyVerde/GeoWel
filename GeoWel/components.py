@@ -25,14 +25,6 @@ def pie_chart_button():
         **Button.btn_pie_chart_style
     )
 
-# [F0, F1] f0, f1 표
-def table(data, columns) -> rx.Component:
-    return rx.data_table(
-        data=data,
-        columns=columns,
-        **Chart.TABLE
-    )
-
 # [Bar] bar chart 버튼을 감싸고 있는 box
 def bar_chart_button_box(child_component: rx.Component) -> rx.Component:
     # child_component: rx.button
@@ -47,6 +39,38 @@ def pie_chart_button_box(child_component: rx.Component) -> rx.Component:
     return rx.box(
         child_component,
         **Chart.CHART_BUTTON_WRAPPER
+    )
+
+# [Bar] bar chart를 감싸고 있는 box
+def bar_chart_box(child_component: rx.Component) -> rx.Component:
+    # child_component: rx.plotly
+    return rx.box(
+        child_component,
+        **Chart.BAR_CHART_WRAPPER
+    )
+
+# [Table] 표를 감싸고 있는 box
+def table_box(child_component: rx.Component, class_name: str) -> rx.Component:
+    # child_component: rx.data_table
+    return rx.box(
+        child_component,
+        class_name=class_name,
+        **Chart.TABLE_WRAPPER
+    )
+
+# [F0, F1] f0, f1 표
+def table(data, columns) -> rx.Component:
+    return rx.data_table(
+        data=data,
+        columns=columns,
+        **Chart.TABLE
+    )
+
+# [Bar] f0, f1 bar chart
+def bar_chart(fig) -> rx.Component:
+    return rx.plotly(
+        data=fig,
+        **Chart.BAR_CHART_PLOT
     )
 
 # [Pie] fig 차트 하나를 받아서 그리는 함수
@@ -70,15 +94,6 @@ def pie_chart_grid(data_state: list) -> rx.Component:
             **Chart.PIE_CHART_GRID
         ),
         **Chart.PIE_CHART_WRAPPER
-    )
-
-# [Table] 표를 감싸고 있는 box
-def table_box(child_component: rx.Component, class_name: str) -> rx.Component:
-    # child_component: rx.data_table
-    return rx.box(
-        child_component,
-        class_name=class_name,
-        **Chart.TABLE_WRAPPER
     )
 
 # [Date] 버튼 및 발췌일자

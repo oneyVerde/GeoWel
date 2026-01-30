@@ -249,27 +249,233 @@ class State(rx.State):
             self.f1_table_data =get_table_data(self._f1_df, target_code)
 
     # f0 막대 그래프
-    def draw_f0_bar_chart(self, target_code):
-        if self._f0_df is None:
-            return
+    # def draw_f0_bar_chart(self, target_code):
+    #     if self._f0_df is None:
+    #         return
+    #
+    #     data = self._f0_df.copy()
+    #     value_column = '서비스연계율'
+    #
+    #     data[value_column] = (data[value_column] * 100).round(0)
+    #     data['시도명_bold'] = data['시도명'].apply(lambda x: f"<b>{x}</b>")
+    #
+    #     # 발췌일
+    #     extract_date = self._f0_date
+    #     extract_date = extract_date.replace('-', '.') + '.'
+    #
+    #     highlight_color = '#d7f0bd'
+    #     base_color = '#E0E0E0'
+    #
+    #     if target_code is None or target_code == 0:
+    #         base_color,  highlight_color = highlight_color, base_color
+    #
+    #     # 색상
+    #     colors = [
+    #         highlight_color if code == target_code else base_color
+    #         for code in data['시도코드']
+    #     ]
+    #
+    #     fig = px.bar(
+    #         data,
+    #         x='시도명_bold',
+    #         y=value_column,
+    #         text_auto='.1%'
+    #     )
+    #
+    #     fig.update_traces(
+    #         marker_color=colors,
+    #         marker_line_width=0,
+    #         texttemplate='<b>%{y:,.0f}</b>',
+    #         textposition='outside',
+    #         textfont_size=14,
+    #         cliponaxis=False,
+    #         constraintext='none',
+    #     )
+    #
+    #     fig.update_layout(
+    #         title=dict(
+    #             text=f"<b>지역별 통합돌봄 서비스연계율 현황</b>",
+    #             font=dict(size=30),
+    #             x=0.5,
+    #             pad=dict(b=20)
+    #         ),
+    #         plot_bgcolor='white',
+    #         width=1100,
+    #         height=800,
+    #         bargap=0.3,
+    #         xaxis_title=None,
+    #         yaxis_title=None,
+    #         title_x=0.5,
+    #         # 발췌일, 단위
+    #         margin=dict(l=50, r=50, b=100, t=120),
+    #         annotations=[
+    #             dict(
+    #                 x=1.1,
+    #                 y=0.94,
+    #                 xref="paper",
+    #                 yref="paper",
+    #                 text=f"<b>(단위: %, 발췌일자: {extract_date}<sup>*</sup>)\
+    #                 <br><span style='font-size: 14px'>* 예산지원형: 2025.2.17.~2026.1.9.,\
+    #                 <br><span style='font-size: 14px'>   기술지원형: 2025.7.14~2026.1.9. 접수일 기준</b>",
+    #                 showarrow=False,
+    #                 font=dict(
+    #                     size=17,
+    #                     color="#1B1B1B"
+    #                 ),
+    #                 align="left",
+    #                 xanchor="right",
+    #                 yanchor="bottom"
+    #             )
+    #         ],
+    #         xaxis=dict(
+    #             title=None,
+    #             tickmode='linear',
+    #             tickangle=0,
+    #             range=[-0.8, len(data) - 0.2],
+    #             ticks='outside',
+    #             ticklen=15,
+    #             tickcolor='white',
+    #             tickfont=dict(
+    #                 size=18,
+    #                 family="Arial Black, sans-serif"
+    #             )
+    #         ),
+    #         yaxis=dict(
+    #             tickformat=',.0f',
+    #             dtick=10,
+    #             range=[0, 80],
+    #             tickfont=dict(
+    #                 size=14,
+    #                 family="Arial Black, sans-serif"
+    #             )
+    #         ),
+    #         font=dict(size=14)
+    #     )
+    #
+    #     self.f0_bar_fig = fig
 
-        data = self._f0_df.copy()
-        value_column = '서비스연계율'
+    # f1 막대 그래프
+    # def draw_f1_bar_chart(self, target_code):
+    #     if self._f1_df is None:
+    #         return
+    #
+    #     data = self._f1_df.copy()
+    #     value_column = '자원연계건수'
+    #
+    #     data['시도명_bold'] = data['시도명'].apply(lambda x: f"<b>{x}</b>")
+    #
+    #     # 발췌일
+    #     extract_date = self._f1_date
+    #     extract_date = extract_date.replace('-', '.') + '.'
+    #
+    #     highlight_color = '#ffd3a7'
+    #     base_color = '#E0E0E0'
+    #
+    #     if target_code is None or target_code == 0:
+    #         base_color,  highlight_color= highlight_color, base_color
+    #
+    #     max_val = data[value_column].max()
+    #
+    #     colors = [
+    #         highlight_color if code == target_code else base_color
+    #         for code in data['시도코드']
+    #     ]
+    #
+    #     fig = px.bar(
+    #         data,
+    #         x='시도명_bold',
+    #         y=value_column,
+    #         #title=f"<b>지역별 퇴원환자 자원연계건수</b>",
+    #         #text_auto=True
+    #     )
+    #
+    #     fig.update_traces(
+    #         marker_color=colors,
+    #         marker_line_width=0,
+    #         texttemplate='<b>%{y:,.0f}</b>',
+    #         textposition='outside',
+    #         textfont_size=14,
+    #         cliponaxis=False,
+    #         constraintext='none',
+    #     )
+    #
+    #     fig.update_layout(
+    #         title=dict(
+    #             text=f"<b>지역별 퇴원환자 자원연계건수</b>",
+    #             font=dict(size=30),
+    #             x=0.5,
+    #             pad=dict(b=20)
+    #         ),
+    #         uniformtext=dict(mode=False),
+    #         plot_bgcolor='white',
+    #         width=1100,
+    #         height=800,
+    #         bargap=0.3,
+    #         xaxis_title=None,
+    #         yaxis_title=None,
+    #         title_x=0.5,
+    #         # 발췌일, 단위
+    #         margin=dict(l=50, r=50, b=100, t=120),
+    #         annotations=[
+    #             dict(
+    #                 x=1,
+    #                 y=0.96,
+    #                 xref="paper",
+    #                 yref="paper",
+    #                 text=f"<b>(단위: 건, 발췌일자: 2025.12.31.)</b>",
+    #                 showarrow=False,
+    #                 font=dict(
+    #                     size=17,
+    #                     color="#1B1B1B"
+    #                 ),
+    #                 xanchor="right",
+    #                 yanchor="bottom"
+    #             )
+    #         ],
+    #         xaxis=dict(
+    #             title=None,
+    #             tickmode='linear',
+    #             tickangle=0,
+    #             range=[-0.8, len(data) - 0.2],
+    #             ticks='outside',
+    #             ticklen=15,
+    #             tickcolor='white',
+    #             tickfont=dict(
+    #                 size=18,
+    #                 family="Malgun Gothic, sans-serif"
+    #             )
+    #         ),
+    #         yaxis=dict(
+    #             title=None,
+    #             tickformat=',.0f',
+    #             range=[0, max_val * 1.15],
+    #             tickfont=dict(
+    #                 size=14,
+    #                 family="Arial Black, sans-serif"
+    #             )
+    #         ),
+    #         font=dict(size=14)
+    #     )
+    #
+    #     self.f1_bar_fig = fig
 
-        data[value_column] = (data[value_column] * 100).round(0)
+    # f0, f1 막대차트
+    def _draw_common_bar_chart(self, df, value_column, target_code,
+                               title_text, highlight_color, date_text,
+                               y_config, is_percent=False):
+        if df is None:
+            return None
+
+        data = df.copy()
+        if is_percent:
+            data[value_column] = (data[value_column] * 100).round(0)
+
         data['시도명_bold'] = data['시도명'].apply(lambda x: f"<b>{x}</b>")
-
-        # 발췌일
-        extract_date = self._f0_date
-        extract_date = extract_date.replace('-', '.') + '.'
-
-        highlight_color = '#d7f0bd'
+        
         base_color = '#E0E0E0'
-
         if target_code is None or target_code == 0:
-            base_color,  highlight_color = highlight_color, base_color
-
-        # 색상
+            base_color, highlight_color = highlight_color, base_color
+        
         colors = [
             highlight_color if code == target_code else base_color
             for code in data['시도코드']
@@ -278,8 +484,7 @@ class State(rx.State):
         fig = px.bar(
             data,
             x='시도명_bold',
-            y=value_column,
-            text_auto='.1%'
+            y=value_column
         )
 
         fig.update_traces(
@@ -294,8 +499,8 @@ class State(rx.State):
 
         fig.update_layout(
             title=dict(
-                text=f"<b>지역별 통합돌봄 서비스연계율 현황</b>",
-                font=dict(size=30),
+                text=title_text,
+                font=dict(size=30, family="Malgun Gothic"),
                 x=0.5,
                 pad=dict(b=20)
             ),
@@ -306,22 +511,18 @@ class State(rx.State):
             xaxis_title=None,
             yaxis_title=None,
             title_x=0.5,
-            # 발췌일, 단위
-            margin=dict(b=100, t=120),
+
+            margin=dict(l=50, r=50, b=100, t=120),
+
             annotations=[
                 dict(
-                    x=1.1,
-                    y=0.94,
+                    x=1,
+                    y=0.96,
                     xref="paper",
                     yref="paper",
-                    text=f"<b>(단위: %, 발췌일자: {extract_date}<sup>*</sup>)\
-                    <br><span style='font-size: 14px'>* 예산지원형: 2025.2.17.~2026.1.9.,\
-                    <br><span style='font-size: 14px'>   기술지원형: 2025.7.14~2026.1.9. 접수일 기준</b>",
+                    text=date_text,
                     showarrow=False,
-                    font=dict(
-                        size=17,
-                        color="#1B1B1B"
-                    ),
+                    font=dict(size=17, color="#1B1B1B", family="Malgun Gothic"),
                     align="left",
                     xanchor="right",
                     yanchor="bottom"
@@ -335,127 +536,66 @@ class State(rx.State):
                 ticks='outside',
                 ticklen=15,
                 tickcolor='white',
-                tickfont=dict(
-                    size=18,
-                    family="Arial Black, sans-serif"
-                )
+                tickfont=dict(size=18, family="Malgun Gothic, sans-serif")
             ),
             yaxis=dict(
                 tickformat=',.0f',
-                dtick=10,
-                range=[0, 80],
-                tickfont=dict(
-                    size=14,
-                    family="Arial Black, sans-serif"
-                )
+                tickfont=dict(size=14, family="Malgun Gothic, sans-serif"),
+                **y_config
             ),
-            font=dict(size=14)
+            font=dict(size=14, family="Malgun Gothic")
         )
 
-        self.f0_bar_fig = fig
+        return fig
 
-    # f1 막대 그래프
+    def draw_f0_bar_chart(self, target_code):
+        if self._f0_df is None:
+            return
+
+        value_column = '서비스연계율'
+        max_val = self._f0_df[value_column].max()*100
+        extract_date = self._f0_date.replace('-', '.') + '.'
+
+        date_text = f"<b>(단위: %, 발췌일자: {extract_date}<sup>*</sup>)\
+            <br><span style='font-size: 14px'>* 예산지원형: 2025.2.17.~2026.1.9.,\
+            <br><span style='font-size: 14px'>  기술지원형: 2025.7.14~2026.1.9. 접수일 기준</b>"
+
+
+        self.f0_bar_fig = self._draw_common_bar_chart(
+            df=self._f0_df,
+            value_column=value_column,
+            target_code=target_code,
+            title_text=f"<b>지역별 통합돌봄 {value_column} 현황</b>",
+            highlight_color='#d7f0bd',
+            date_text=date_text,
+            is_percent=True,
+            y_config={
+                'range': [0, max_val * 1.15],
+                'dtick': 10
+            }
+        )
+    # 12.31
     def draw_f1_bar_chart(self, target_code):
         if self._f1_df is None:
             return
-
-        data = self._f1_df.copy()
+        
         value_column = '자원연계건수'
+        max_val = self._f1_df[value_column].max()
+        extract_date = self._f1_date.replace('-', '.') + '.'
 
-        data['시도명_bold'] = data['시도명'].apply(lambda x: f"<b>{x}</b>")
-
-        # 발췌일
-        extract_date = self._f1_date
-        extract_date = extract_date.replace('-', '.') + '.'
-
-        highlight_color = '#ffd3a7'
-        base_color = '#E0E0E0'
-
-        if target_code is None or target_code == 0:
-            base_color,  highlight_color= highlight_color, base_color
-
-        max_val = data[value_column].max()
-
-        colors = [
-            highlight_color if code == target_code else base_color
-            for code in data['시도코드']
-        ]
-
-        fig = px.bar(
-            data,
-            x='시도명_bold',
-            y=value_column,
-            #title=f"<b>지역별 퇴원환자 자원연계건수</b>",
-            #text_auto=True
+        self.f1_bar_fig = self._draw_common_bar_chart(
+            df=self._f1_df,
+            value_column=value_column,
+            target_code=target_code,
+            title_text=f"<b>지역별 퇴원환자 {value_column}</b>",
+            highlight_color='#ffd3a7',
+            date_text=f"<b>(단위: 건, 발췌일자: {extract_date})</b>",
+            is_percent=False,
+            y_config={
+                'range': [0, max_val * 1.15],
+                'dtick': 10
+            }
         )
-
-        fig.update_traces(
-            marker_color=colors,
-            marker_line_width=0,
-            texttemplate='<b>%{y}</b>',
-            textposition='outside',
-            textfont_size=14,
-            cliponaxis=False,
-            constraintext='none',
-        )
-
-        fig.update_layout(
-            title=dict(
-                text=f"<b>지역별 퇴원환자 자원연계건수</b>",
-                font=dict(size=30),
-                x=0.5,
-                pad=dict(b=20)
-            ),
-            uniformtext=dict(mode=False),
-            plot_bgcolor='white',
-            height=800,
-            bargap=0.3,
-            xaxis_title=None,
-            yaxis_title=None,
-            title_x=0.5,
-            # 발췌일, 단위
-            margin=dict(b=100, t=120),
-            annotations=[
-                dict(
-                    x=1,
-                    y=0.96,
-                    xref="paper",
-                    yref="paper",
-                    text=f"<b>(단위: 건, 발췌일자: 2025.12.31.)</b>",
-                    showarrow=False,
-                    font=dict(
-                        size=17,
-                        color="#1B1B1B"
-                    ),
-                    xanchor="right",
-                    yanchor="bottom"
-                )
-            ],
-            xaxis=dict(
-                title=None,
-                tickmode='linear',
-                tickangle=0,
-                range=[-0.8, len(data) - 0.2],
-                ticks='outside',
-                ticklen=15,
-                tickcolor='white',
-                tickfont=dict(
-                    size=18,
-                    family="Malgun Gothic, sans-serif"
-                )
-            ),
-            yaxis=dict(
-                title=None,
-                range=[0, max_val * 1.15],
-                tickfont=dict(
-                    size=14,
-                    family="Arial Black, sans-serif"
-                )
-            ),
-            font=dict(size=14)
-        )
-
-        self.f1_bar_fig = fig
 
     # f2 파이차트
     def draw_pie_chart(self, index, w=320, h=300, fs=13):

@@ -153,7 +153,6 @@ def index() -> rx.Component:
                             width="100%",
                             border="1px solid #eee", padding="2", border_radius="5px", spacing="0"
                         ),
-                        spacing="2",
                         width="100%",
                         height="auto",
                         overflow_y="auto",
@@ -168,52 +167,32 @@ def index() -> rx.Component:
 
                         # [View 2] F0 Bar Chart 화면
                         rx.vstack(
-                            rx.hstack(
-                                rx.button("← 이전", on_click=State.toggle_f0_chart, color_scheme="gray", variant="outline", color="#333333", font_weight="bold"),
-                                align_items="center",
-                                width="100%",
-                                padding="20px"
+                            CMP.back_button(
+                                State.toggle_f0_chart
                             ),
-                            rx.box(
-                                rx.plotly(
-                                    data=State.f0_bar_fig,
-                                    use_resize_handler=True,
-                                    width="100%",
-                                    height="600px"
-                                ),
-                                width="100%",
-                                padding="10px",
-                                flex="1",
-                                style={
-                                    "zoom": "0.95"
-                                }
+                            CMP.bar_chart_box(
+                                CMP.bar_chart(
+                                    State.f0_bar_fig
+                                )
                             ),
                             width="100%",
-                            height="100%"
+                            height="100%",
+                            spacing="0"
                         ),
 
                         # [View 3] F1 Bar Chart 화면 (else: current_view == "f1")
                         rx.vstack(
-                            rx.hstack(
-                                rx.button("← 이전", on_click=State.toggle_f1_chart, color_scheme="gray", variant="outline", color="#333333", font_weight="bold"),
-                                align_items="center",
-                                width="100%",
-                                padding="20px"
+                            CMP.back_button(
+                              State.toggle_f1_chart
                             ),
-                            rx.center(
-                                rx.plotly(
-                                    data=State.f1_bar_fig,
-                                    use_resize_handler=True,
-                                    width="100%",
-                                    height="600px"
-                                ),
-                                width="100%",
-                                padding="10px",
-                                flex="1"
+                            CMP.bar_chart_box(
+                                CMP.bar_chart(
+                                    State.f1_bar_fig
+                                )
                             ),
-
                             width="100%",
-                            height="100%"
+                            height="100%",
+                            spacing="0"
                         )
                     )
                 ),
