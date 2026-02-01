@@ -254,3 +254,29 @@ def main_data_table(data):
         overflow="auto",
         margin_left="0px"
     )
+
+# [Main Date] 메인 테이블 발췌일자
+def main_table_date():
+    return rx.vstack(
+        rx.hstack(
+            # 발췌일자
+            rx.text(Text.MAIN_DATE_LABEL, **Date.MAIN_TEXT_ITEM),
+            # F0
+            rx.text(
+                Text.F0_DATE_NUM,
+                rx.el.sup("*"),
+                **Date.MAIN_TEXT_ITEM
+            ),
+            # F2
+            rx.text(Text.F2_DATE_NUM, **Date.MAIN_TEXT_ITEM),
+            # F1
+            rx.text(Text.F1_DATE_NUM, **Date.MAIN_TEXT_ITEM),
+            **Date.MAIN_TEXT_CONTAINER
+        ),
+        # 각주
+        rx.text(
+            Text.NOTE_DATE,
+            **Date.MAIN_NOTE_TEXT
+        ),
+        spacing="0"
+    )

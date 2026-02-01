@@ -70,10 +70,17 @@ class Text:
     F2 = "자원 현황"
     BACK = "← 이전"
 
-    # date(발췌일자) text
+    # date (발췌일자)
     F0_DATE = "* 발췌일자: 2026.1.12. / 예산지원형: 2025.2.17.~2026.1.9., 기술지원형: 2025.7.14~2026.1.9. 접수일 기준"
     F1_DATE = "* 발췌일자: 2025.12.31."
     F2_DATE = "* 발췌일자: 2025.12.1."
+
+    # main date (발췌일자)
+    MAIN_DATE_LABEL = "※ 발췌일자"
+    F0_DATE_NUM = "1) 2026.1.12."
+    F2_DATE_NUM = "2) 2025.12.1."
+    F1_DATE_NUM = "3) 2025.12.31."
+    NOTE_DATE = "* 예산지원형: 2025.2.17.~2026.1.9., 기술지원형: 2025.7.14~2026.1.9. 접수일 기준"
 
     TWO_LINE_TEXT = {
         "font_size": "14px",
@@ -177,6 +184,32 @@ class Date:
         "padding_left": "5px",
         "margin_left": "10px",
         "margin_top": "-10px"
+    }
+
+    MAIN_TEXT_CONTAINER = {
+        "font_size": "16px",
+        "color": "#333333",
+        "font_weight": "bold",
+        "margin_top": "5px",
+        "width": "100%",
+        "text_align": "left",
+        "align_items": "center"
+    }
+
+    MAIN_TEXT_ITEM = {
+        "margin_left": "20px",
+        "as_": "span"
+    }
+
+    MAIN_NOTE_TEXT = {
+        "font_size": "14px",
+        "color": "#333333",
+        "font_weight": "bold",
+        "margin_top": "10px",
+        "margin_left": "130px",
+        "width": "100%",
+        "text_align": "left",
+        "as_": "span"
     }
 
 class Title:

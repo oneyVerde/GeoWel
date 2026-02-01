@@ -206,32 +206,7 @@ def index() -> rx.Component:
                             spacing="1"
                         ),
                         # main 발췌일자
-                        rx.vstack(
-                            rx.hstack(
-                                rx.text("※ 발췌일자", margin_left="20px", as_="span"),
-                                rx.text(
-                                    "1) 2026.1.12.", rx.el.sup("*"), margin_left="20px", as_="span"),
-                                rx.text("2) 2025.12.1.", margin_left="20px", as_="span"),
-                                rx.text("3) 2025.12.31.", margin_left="20px", as_="span"),
-                                font_size="16px",
-                                color="#333333",
-                                margin_top="5px",
-                                width="100%",
-                                text_align="left",
-                                font_weight="bold"
-                            ),
-                            rx.text("* 예산지원형: 2025.2.17.~2026.1.9., 기술지원형: 2025.7.14~2026.1.9. 접수일 기준",
-                                    font_size="14px",
-                                    color="#333333",
-                                    margin_top="10px",
-                                    margin_left="130px",
-                                    width="100%",
-                                    text_align="left",
-                                    font_weight="bold",
-                                    as_="span"
-                            ),
-                            spacing="0"
-                        ),
+                        CMP.main_table_date(),
                         width="100%",
                         height="100%",
                         padding="20px",
