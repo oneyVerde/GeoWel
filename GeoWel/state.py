@@ -67,8 +67,8 @@ class State(rx.State):
     # 상태 관리: main, f0, f1
     current_view: str = "main"
 
-    # main 데이터
-    main_data: list[dict] = []
+    # main 테이블 데이터
+    main_table_data: list[dict] = []
     main_columns: list = []
 
     # 차트
@@ -122,7 +122,7 @@ class State(rx.State):
         self.selected_region_kr = ""
         self.selected_region_code = 0.0
 
-        self.load_main_data()
+        self.load_main_table_data()
         self.current_view = "main"
 
         self.is_loaded = True
@@ -136,9 +136,9 @@ class State(rx.State):
             p_id = p['id'].lower()
             p['name_kr'] = self.REGION_MAPPING.get(p_id, p['name'])
 
-    def load_main_data(self):
+    def load_main_table_data(self):
         file_path = "assets/layout.xlsx"
-        self.main_data, self.main_columns = get_main_table(file_path)
+        self.main_table_data, self.main_columns = get_main_table(file_path)
 
     def handle_map_click(self, item: dict):
         clicked_id = item['id'].lower()
@@ -248,28 +248,23 @@ class State(rx.State):
         if self._f1_df is not None:
             self.f1_table_data =get_table_data(self._f1_df, target_code)
 
-    # f0 막대 그래프
-    def draw_f0_bar_chart(self, target_code):
-        if self._f0_df is None:
-            return
+    # f0, f1 막대차트
+    def _draw_common_bar_chart(self, df, value_column, target_code,
+                               title_text, highlight_color, date_text,
+                               y_config, is_percent=False):
+        if df is None:
+            return None
 
-        data = self._f0_df.copy()
-        value_column = '서비스연계율'
+        data = df.copy()
+        if is_percent:
+            data[value_column] = (data[value_column] * 100).round(0)
 
-        data[value_column] = (data[value_column] * 100).round(0)
         data['시도명_bold'] = data['시도명'].apply(lambda x: f"<b>{x}</b>")
-
-        # 발췌일
-        extract_date = self._f0_date
-        extract_date = extract_date.replace('-', '.') + '.'
-
-        highlight_color = '#d7f0bd'
+        
         base_color = '#E0E0E0'
-
         if target_code is None or target_code == 0:
-            base_color,  highlight_color = highlight_color, base_color
-
-        # 색상
+            base_color, highlight_color = highlight_color, base_color
+        
         colors = [
             highlight_color if code == target_code else base_color
             for code in data['시도코드']
@@ -278,8 +273,7 @@ class State(rx.State):
         fig = px.bar(
             data,
             x='시도명_bold',
-            y=value_column,
-            text_auto='.1%'
+            y=value_column
         )
 
         fig.update_traces(
@@ -294,8 +288,8 @@ class State(rx.State):
 
         fig.update_layout(
             title=dict(
-                text=f"<b>지역별 통합돌봄 서비스연계율 현황</b>",
-                font=dict(size=30),
+                text=title_text,
+                font=dict(size=30, family="Malgun Gothic"),
                 x=0.5,
                 pad=dict(b=20)
             ),
@@ -306,22 +300,18 @@ class State(rx.State):
             xaxis_title=None,
             yaxis_title=None,
             title_x=0.5,
-            # 발췌일, 단위
-            margin=dict(b=100, t=120),
+
+            margin=dict(l=50, r=50, b=100, t=120),
+
             annotations=[
                 dict(
-                    x=1.1,
-                    y=0.94,
+                    x=1,
+                    y=0.96,
                     xref="paper",
                     yref="paper",
-                    text=f"<b>(단위: %, 발췌일자: {extract_date}<sup>*</sup>)\
-                    <br><span style='font-size: 14px'>* 예산지원형: 2025.2.17.~2026.1.9.,\
-                    <br><span style='font-size: 14px'>   기술지원형: 2025.7.14~2026.1.9. 접수일 기준</b>",
+                    text=date_text,
                     showarrow=False,
-                    font=dict(
-                        size=17,
-                        color="#1B1B1B"
-                    ),
+                    font=dict(size=17, color="#1B1B1B", family="Malgun Gothic"),
                     align="left",
                     xanchor="right",
                     yanchor="bottom"
@@ -335,132 +325,72 @@ class State(rx.State):
                 ticks='outside',
                 ticklen=15,
                 tickcolor='white',
-                tickfont=dict(
-                    size=18,
-                    family="Arial Black, sans-serif"
-                )
+                tickfont=dict(size=18, family="Malgun Gothic, sans-serif")
             ),
             yaxis=dict(
                 tickformat=',.0f',
-                dtick=10,
-                range=[0, 80],
-                tickfont=dict(
-                    size=14,
-                    family="Arial Black, sans-serif"
-                )
+                tickfont=dict(size=14, family="Malgun Gothic, sans-serif"),
+                **y_config
             ),
-            font=dict(size=14)
+            font=dict(size=14, family="Malgun Gothic")
         )
 
-        self.f0_bar_fig = fig
+        return fig
 
-    # f1 막대 그래프
+    def draw_f0_bar_chart(self, target_code):
+        if self._f0_df is None:
+            return
+
+        value_column = '서비스연계율'
+        max_val = self._f0_df[value_column].max()*100
+        extract_date = self._f0_date.replace('-', '.') + '.'
+
+        date_text = f"<b>(단위: %, 발췌일자: {extract_date}<sup>*</sup>)\
+            <br><span style='font-size: 14px'>* 예산지원형: 2025.2.17.~2026.1.9.,\
+            <br><span style='font-size: 14px'>  기술지원형: 2025.7.14~2026.1.9. 접수일 기준</b>"
+
+
+        self.f0_bar_fig = self._draw_common_bar_chart(
+            df=self._f0_df,
+            value_column=value_column,
+            target_code=target_code,
+            title_text=f"<b>지역별 통합돌봄 {value_column} 현황</b>",
+            highlight_color='#d7f0bd',
+            date_text=date_text,
+            is_percent=True,
+            y_config={
+                'range': [0, max_val * 1.15],
+                'dtick': 10
+            }
+        )
+    # 12.31
     def draw_f1_bar_chart(self, target_code):
         if self._f1_df is None:
             return
-
-        data = self._f1_df.copy()
+        
         value_column = '자원연계건수'
+        max_val = self._f1_df[value_column].max()
+        extract_date = self._f1_date.replace('-', '.') + '.'
 
-        data['시도명_bold'] = data['시도명'].apply(lambda x: f"<b>{x}</b>")
-
-        # 발췌일
-        extract_date = self._f1_date
-        extract_date = extract_date.replace('-', '.') + '.'
-
-        highlight_color = '#ffd3a7'
-        base_color = '#E0E0E0'
-
-        if target_code is None or target_code == 0:
-            base_color,  highlight_color= highlight_color, base_color
-
-        max_val = data[value_column].max()
-
-        colors = [
-            highlight_color if code == target_code else base_color
-            for code in data['시도코드']
-        ]
-
-        fig = px.bar(
-            data,
-            x='시도명_bold',
-            y=value_column,
-            #title=f"<b>지역별 퇴원환자 자원연계건수</b>",
-            #text_auto=True
+        self.f1_bar_fig = self._draw_common_bar_chart(
+            df=self._f1_df,
+            value_column=value_column,
+            target_code=target_code,
+            title_text=f"<b>지역별 퇴원환자 {value_column}</b>",
+            highlight_color='#ffd3a7',
+            date_text=f"<b>(단위: 건, 발췌일자: {extract_date})</b>",
+            is_percent=False,
+            y_config={
+                'range': [0, max_val * 1.15],
+                'dtick': 10
+            }
         )
-
-        fig.update_traces(
-            marker_color=colors,
-            marker_line_width=0,
-            texttemplate='<b>%{y}</b>',
-            textposition='outside',
-            textfont_size=14,
-            cliponaxis=False,
-            constraintext='none',
-        )
-
-        fig.update_layout(
-            title=dict(
-                text=f"<b>지역별 퇴원환자 자원연계건수</b>",
-                font=dict(size=30),
-                x=0.5,
-                pad=dict(b=20)
-            ),
-            uniformtext=dict(mode=False),
-            plot_bgcolor='white',
-            height=800,
-            bargap=0.3,
-            xaxis_title=None,
-            yaxis_title=None,
-            title_x=0.5,
-            # 발췌일, 단위
-            margin=dict(b=100, t=120),
-            annotations=[
-                dict(
-                    x=1,
-                    y=0.96,
-                    xref="paper",
-                    yref="paper",
-                    text=f"<b>(단위: 건, 발췌일자: 2025.12.31.)</b>",
-                    showarrow=False,
-                    font=dict(
-                        size=17,
-                        color="#1B1B1B"
-                    ),
-                    xanchor="right",
-                    yanchor="bottom"
-                )
-            ],
-            xaxis=dict(
-                title=None,
-                tickmode='linear',
-                tickangle=0,
-                range=[-0.8, len(data) - 0.2],
-                ticks='outside',
-                ticklen=15,
-                tickcolor='white',
-                tickfont=dict(
-                    size=18,
-                    family="Malgun Gothic, sans-serif"
-                )
-            ),
-            yaxis=dict(
-                title=None,
-                range=[0, max_val * 1.15],
-                tickfont=dict(
-                    size=14,
-                    family="Arial Black, sans-serif"
-                )
-            ),
-            font=dict(size=14)
-        )
-
-        self.f1_bar_fig = fig
 
     # f2 파이차트
     def draw_pie_chart(self, index, w=320, h=300, fs=13):
         if self._f2_raw_obj is None:
             return
+        raw_data_list = None
         if self.selected_region_code == 0.0:
             if self._f2_total_raw_obj is not None:
                 raw_data_list = get_pie_data(self._f2_total_raw_obj, 0)
@@ -518,7 +448,3 @@ class State(rx.State):
             new_figs.append(fig)
 
         self.f2_pie_figs = new_figs
-
-    @property
-    def f2_date(self):
-        return self._f2_date
