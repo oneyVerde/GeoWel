@@ -28,10 +28,10 @@ def index() -> rx.Component:
         ),
 
         # =========================================================
-        # [오른쪽 패널] 나머지 공간 (60%)
+        # [오른쪽 패널] 대시보드 공간 (60%)
         # =========================================================
         rx.box(
-            # 1. 지역 선택 여부 확인
+            # [Logic] 지역 선택 여부
             rx.cond(
                 State.selected_region_kr != "",
 
@@ -40,22 +40,22 @@ def index() -> rx.Component:
                     State.current_view == "main",
 
                     # -------------------------------------------------
-                    # [View 1] 메인 화면: F0, F1, F2 행별 배치
+                    # [View 1] 지역: F0, F1, F2 행별 배치
                     # -------------------------------------------------
                     rx.vstack(
                         rx.heading(f"{State.selected_region_kr} 통합돌봄 현황", size="5", padding_top="10px"),
 
-                        # --- [Row 1] F0 영역 ---
+                        # [Row 1] F0 영역 (신청 및 연계)
                         rx.vstack(
                             rx.hstack(
-                                # f0 버튼
+                                # F0 차트 버튼
                                 CMP.bar_chart_button_box(
                                     CMP.bar_chart_button(
                                         Config.F0_CONFIG,
                                         State.toggle_f0_chart
                                     )
                                 ),
-                                # f0 표
+                                # F0 데이터 테이블
                                 CMP.table_box(
                                     CMP.table(
                                         data=State.f0_table_data,
@@ -75,17 +75,17 @@ def index() -> rx.Component:
                             padding="1",
                             border_radius="5px"
                         ),
-                        # --- [Row 2] F1 영역 ---
+                        # [Row 2] F1 영역 (퇴원환자 지원)
                         rx.vstack(
                             rx.hstack(
-                                # f1 버튼
+                                # F1 차트 버튼
                                 CMP.bar_chart_button_box(
                                     CMP.bar_chart_button(
                                         Config.F1_CONFIG,
                                         State.toggle_f1_chart
                                     )
                                 ),
-                                # f1 표
+                                # F1 데이터 테이블
                                 CMP.table_box(
                                     CMP.table(
                                         data=State.f1_table_data,
@@ -106,14 +106,14 @@ def index() -> rx.Component:
                             border_radius="5px"
                         ),
 
-                        # --- [Row 3] F2 영역 ---
+                        # [Row 3] F2 영역 (자원 현황)
                         rx.vstack(
-                            # f2 버튼
+                            # F2 차트 버튼
                             CMP.pie_chart_button_box(
                                 CMP.pie_chart_button()
                             ),
 
-                            # f2 파이차트
+                            # F2 파이 차트
                             CMP.pie_chart_grid(
                                 State.f2_pie_figs
                             ),
@@ -127,12 +127,12 @@ def index() -> rx.Component:
                     ),
 
                     # -------------------------------------------------
-                    # [View 2 & 3] 상세 차트 화면 (F0 또는 F1)
+                    # [View 2 & 3] 상세 차트 화면 (F0, F1)
                     # -------------------------------------------------
                     rx.cond(
                         State.current_view == "f0",
 
-                        # [View 2] F0 Bar Chart 화면
+                        # [View 2] F0 상세 차트 (Bar)
                         rx.vstack(
                             CMP.back_button(
                                 State.toggle_f0_chart
@@ -147,7 +147,7 @@ def index() -> rx.Component:
                             spacing="0"
                         ),
 
-                        # [View 3] F1 Bar Chart 화면 (else: current_view == "f1")
+                        # [View 3] F1 상세 차트 (Bar)
                         rx.vstack(
                             CMP.back_button(
                               State.toggle_f1_chart
@@ -163,11 +163,12 @@ def index() -> rx.Component:
                         )
                     )
                 ),
+                # [Case B] 지역이 선택되지 않았을 때 (전국)
                 rx.cond(
                     State.current_view == "main",
 
                     # =========================================================
-                    # [View 1] 전국 메인 화면: 버튼 + main 테이블
+                    # [View 1] 전국 메인: 버튼 + 메인 테이블
                     # =========================================================
                     rx.vstack(
                         rx.heading(
@@ -175,19 +176,19 @@ def index() -> rx.Component:
                                    font_weight="bold"),
 
                         rx.hstack(
-                            # 1. 버튼
+                            # [Column 1] 메뉴 버튼 그룹
                             rx.vstack(
-                                # (F0) 신청 및 연계 현황
+                                # F0 차트 버튼 (신청 및 연계)
                                 CMP.main_bar_chart_button(
                                     Config.MAIN_F0_CONFIG,
                                     State.toggle_f0_chart
                                 ),
-                                # (F2) 자원 현황
+                                # F2 차트 버튼 (자원 현황)
                                 CMP.main_bar_chart_button(
                                     Config.F2_CONFIG,
                                     State.toggle_f2_chart
                                 ),
-                                # (F1) 퇴원 환자 지원 현황
+                                # F1 차트 버튼 (퇴원환자 지원)
                                 CMP.main_bar_chart_button(
                                     Config.F1_CONFIG,
                                     State.toggle_f1_chart
@@ -197,7 +198,7 @@ def index() -> rx.Component:
                                 padding_top="0px"
                             ),
 
-                            # 2. main 테이블
+                            # [Column 2] 전국 데이터 테이블
                             CMP.main_data_table(
                                 State.main_table_data
                             ),
@@ -205,7 +206,7 @@ def index() -> rx.Component:
                             align_items="start",
                             spacing="1"
                         ),
-                        # main 발췌일자
+                        # [Footer] 메인 테이블 발췌일자
                         CMP.main_table_date(),
                         width="100%",
                         height="100%",
@@ -219,7 +220,7 @@ def index() -> rx.Component:
                     rx.cond(
                         State.current_view == "f0",
 
-                        # [View 2] F0 Bar Chart 화면 (신청 및 연계)
+                        # [View 2] F0 상세 차트 (Bar)
                         rx.vstack(
                             CMP.back_button(
                                 State.toggle_f0_chart
@@ -233,7 +234,7 @@ def index() -> rx.Component:
                             height="100%"
                         ),
                         rx.cond(
-                            # [View 3] F1 Bar Chart 화면 (퇴원 환자 지원)
+                            # [View 3] F1 상세 차트 (Bar)
                             State.current_view == "f1",
                             rx.vstack(
                                 CMP.back_button(
@@ -247,7 +248,7 @@ def index() -> rx.Component:
                                 width="100%",
                                 height="100%"
                             ),
-                            # [View 4] F2 Pie Chart 화면 (자원 현황)
+                            # [View 4] F2 상세 차트 (Pie)
                             rx.vstack(
                                 CMP.back_button(
                                     State.toggle_f2_chart
@@ -274,7 +275,7 @@ def index() -> rx.Component:
                 )
             ),
             align_items="center",
-            width="60%", # 차트 화면 비율
+            width="60%", # 대시보드 화면 비율
             height="100vh",
             overflow="flex",
             z_index="1"
@@ -285,13 +286,14 @@ def index() -> rx.Component:
     )
 
 global_style = {
+# 1. 테이블 헤더 (Th)
     "th": {
         "font_size": "13px !important",
         "padding": "4px !important",
         "text_align": "center !important",
         "color" : "#000000 !important"
     },
-    # 2. 테이블 데이터 칸 (Cell)
+    # 2. 테이블 데이터 칸 (Td)
     "td": {
         "font_size": "14px !important",
         "padding": "2px 4px !important",
@@ -299,6 +301,7 @@ global_style = {
         "text_align": "center !important",
         "font_weight": "bold !important",
     },
+    # 3. F0/F1 테이블 별도 스타일
     ".f0-table th": {
             "background_color": "#d1e0fc !important",
             "border": "2px solid #ffffff !important",
@@ -307,6 +310,7 @@ global_style = {
             "background_color": "#d1e0fc !important",
             "border": "2px solid #ffffff !important",
     },
+    # 4. 테이블 모서리 둥글게
     ".f0-table thead tr:first-child th:first-child": {
         "border_top_left_radius": "10px !important",
     },
