@@ -38,6 +38,17 @@ class Button:
         "_hover": {"transform": "scale(1.05)", "color": "black"}
     }
 
+    btn_main_bar_chart_style = {
+        "font_size": "14px",
+        "font_weight": "bold",
+        "color": Color.BASIC_TEXT,
+        "width": "90%",
+        "height": "55px",
+        "transition": "all 0.2s ease-in-out",
+        "_active": {"transform": "translateY(1px)"},
+        "_hover": {"transform": "scale(1.05)", "color": "black"}
+    }
+
     btn_pie_chart_style = {
         **btn_chart_style,
         "bg": Color.F2_BG,
@@ -50,14 +61,28 @@ class Button:
 class Text:
     # button text
     F0 = "신청 및 연계 현황"
+    MAIN_FO_1 = "신청 및",
+    MAIN_FO_2 = "연계 현황",
     F1 = "퇴원 환자 지원 현황"
     F2 = "자원 현황"
     BACK = "← 이전"
 
     # date(발췌일자) text
-    F0_DATE = "* 발췌일자: 1) 2026.1.12. / 예산지원형: 2025.2.17.~2026.1.9., 기술지원형: 2025.7.14~2026.1.9. 접수일 기준"
+    F0_DATE = "* 발췌일자: 2026.1.12. / 예산지원형: 2025.2.17.~2026.1.9., 기술지원형: 2025.7.14~2026.1.9. 접수일 기준"
     F1_DATE = "* 발췌일자: 2025.12.31."
     F2_DATE = "* 발췌일자: 2025.12.1."
+
+    TWO_LINE_TEXT = {
+        "font_size": "14px",
+        "font_weight": "bold",
+        "line_height": "1.2"
+    }
+    TWO_LINE_CONTAINER = {
+        "spacing": "0",
+        "align_items": "center",
+        "justify": "center",
+        "width": "100%"
+    }
 
 class Config:
     # F0, F1, F2 버튼
@@ -144,7 +169,7 @@ class Date:
         "font_size": "16px",
         "color": Color.BASIC_TEXT,
         "font_weight": "bold",
-        "text-align": "left",
+        "text_align": "left",
         "width": "100%",
         "padding_left": "5px",
         "margin_left": "10px",
@@ -184,9 +209,8 @@ class Map:
 
     MAP_BOX_WRAPPER = {
         "width": "40%", # 지도 화면 비율
-        "height": "100%",
+        "height": "100vh",
         "bg": Color.MAP_BG,
-        "overflow": "hidden",
         "position": "relative",
-        "z_index": "9"
+        "z_index": "999"
     }

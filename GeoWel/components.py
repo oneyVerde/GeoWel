@@ -25,6 +25,29 @@ def pie_chart_button():
         **Button.btn_pie_chart_style
     )
 
+# [F0, F1] main f0, f1 버튼
+def main_bar_chart_button(config: dict, on_click_event):
+    return rx.button(
+        config["title"],
+        bg=config["bg_color"],
+        on_click=on_click_event,
+        **Button.btn_main_bar_chart_style
+    )
+
+# [Text] 두줄 텍스트
+def two_line_text(line1, line2):
+    return rx.vstack(
+        rx.text(
+            line1,
+            **Text.TWO_LINE_TEXT
+        ),
+        rx.text(
+            line2,
+            **Text.TWO_LINE_TEXT
+        ),
+        **Text.TWO_LINE_CONTAINER
+    )
+
 # [Bar] bar chart 버튼을 감싸고 있는 box
 def bar_chart_button_box(child_component: rx.Component) -> rx.Component:
     # child_component: rx.button
@@ -96,7 +119,7 @@ def pie_chart_grid(data_state: list) -> rx.Component:
         **Chart.PIE_CHART_WRAPPER
     )
 
-# [Date] 버튼 및 발췌일자
+# [Date] 버튼 하단 발췌일자
 def date_text(text: str) -> rx.Component:
     # content: 발췌일자 텍스트
     return rx.text(

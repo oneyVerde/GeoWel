@@ -1,6 +1,7 @@
 import reflex as rx
 from .state import State
-from .styles import Color, Button, Text, Config
+from .styles import Text
+from .configuration import Config
 from . import components as CMP
 
 def index() -> rx.Component:
@@ -166,71 +167,37 @@ def index() -> rx.Component:
                     State.current_view == "main",
 
                     # =========================================================
-                    # [View 1] 전국 메인 화면: 버튼(좌) + 테이블(우)
+                    # [View 1] 전국 메인 화면: 버튼 + main 테이블
                     # =========================================================
                     rx.vstack(
                         rx.heading(
                             "전국 통합돌봄 현황", size="6", margin_bottom="10px", text_align="center",
                                    font_weight="bold"),
 
-                        # [핵심 수정] 가로 배치 (버튼 스택 + 테이블 박스)
                         rx.hstack(
-                            # 1. 왼쪽: 버튼 메뉴 (F0, F1, F2)
+                            # 1. 버튼
                             rx.vstack(
-                                # (F0) 신청 및 연계 현황 (줄바꿈 적용됨)
-                                rx.button(
-                                    rx.vstack(
-                                        rx.text("신청 및", font_size="14px", font_weight="bold", line_height="1.2"),
-                                        rx.text("연계 현황", font_size="14px", font_weight="bold", line_height="1.2"),
-                                        spacing="0",
-                                        align_items="center",
-                                        justify="center",
-                                        width="100%"
-                                    ),
-                                    on_click=State.toggle_f0_chart,
-                                    width="90%",
-                                    height="55px",
-                                    bg="#d7f0bd",
-                                    color="#333333",
-                                    transition="all 0.2s ease-in-out",
-                                    _active={"transform": "translateY(1px)"},
-                                    _hover={"transform": "scale(1.05)", "color": "black"},
+                                # (F0) 신청 및 연계 현황
+                                CMP.main_bar_chart_button(
+                                    Config.MAIN_F0_CONFIG,
+                                    State.toggle_f0_chart
                                 ),
-
                                 # (F2) 자원 현황
-                                rx.button(
-                                    "자원 현황",
-                                    font_size="14px",
-                                    on_click=State.toggle_f2_chart,
-                                    width="90%",
-                                    height="55px",
-                                    bg="#fff5b1",
-                                    color="#333333",
-                                    font_weight="bold",
-                                    _active={"transform": "translateY(1px)"},
-                                    _hover={"transform": "scale(1.05)", "color": "black"},
+                                CMP.main_bar_chart_button(
+                                    Config.F2_CONFIG,
+                                    State.toggle_f2_chart
                                 ),
-
                                 # (F1) 퇴원 환자 지원 현황
-                                rx.button(
-                                    rx.text("퇴원 환자 지원 현황", line_height="1.2", font_size="14px", font_weight="bold"),
-                                    on_click=State.toggle_f1_chart,
-                                    width="90%",
-                                    height="55px",
-                                    bg="#ffd3a7",
-                                    color="#333333",
-                                    font_weight="bold",
-                                    transition="all 0.2s ease-in-out",
-                                    _active={"transform": "translateY(1px)"},
-                                    _hover={"transform": "scale(1.05)", "color": "black"},
+                                CMP.main_bar_chart_button(
+                                    Config.F1_CONFIG,
+                                    State.toggle_f1_chart
                                 ),
-
                                 width="100px",
                                 spacing="3",
                                 padding_top="0px"
                             ),
 
-                            # 2. 오른쪽: 테이블 (남은 공간 차지)
+                            # 2. main 테이블
                             rx.box(
                                 rx.table.root(
                                     rx.table.header(
@@ -315,11 +282,11 @@ def index() -> rx.Component:
                                 ),
                                 flex="1",
                                 overflow="auto",
-                                margin_left="0px"  # [수정] 테이블 왼쪽 여백 제거
+                                margin_left="0px"
                             ),
                             width="100%",
                             align_items="start",
-                            spacing="1"  # [수정] 버튼과 테이블 사이 간격 1
+                            spacing="1"
                         ),
                         # main 발췌일자
                         rx.vstack(
@@ -362,27 +329,13 @@ def index() -> rx.Component:
 
                         # [View 2] F0 Bar Chart 화면 (신청 및 연계)
                         rx.vstack(
-                            rx.hstack(
-                                rx.button("← 이전", on_click=State.toggle_f0_chart, color_scheme="gray",
-                                          variant="outline",
-                                          color="#333333", font_weight="bold"),
-                                align_items="center",
-                                width="100%",
-                                padding="20px"
+                            CMP.back_button(
+                                State.toggle_f0_chart
                             ),
-                            rx.box(
-                                rx.plotly(
-                                    data=State.f0_bar_fig,
-                                    use_resize_handler=True,
-                                    width="100%",
-                                    height="600px"
-                                ),
-                                width="100%",
-                                padding="10px",
-                                flex="1",
-                                style={
-                                    "zoom": "0.95"
-                                }
+                            CMP.bar_chart_box(
+                                CMP.bar_chart(
+                                    State.f0_bar_fig
+                                )
                             ),
                             width="100%",
                             height="100%"
@@ -391,98 +344,45 @@ def index() -> rx.Component:
                             # [View 3] F1 Bar Chart 화면 (퇴원 환자 지원)
                             State.current_view == "f1",
                             rx.vstack(
-                                rx.hstack(
-                                    rx.button("← 이전", on_click=State.toggle_f1_chart, color_scheme="gray",
-                                              variant="outline",
-                                              color="#333333", font_weight="bold"),
-                                    align_items="center",
-                                    width="100%",
-                                    padding="20px"
+                                CMP.back_button(
+                                    State.toggle_f1_chart
                                 ),
-                                rx.center(
-                                    rx.plotly(
-                                        data=State.f1_bar_fig,
-                                        use_resize_handler=True,
-                                        width="100%",
-                                        height="600px"
-                                    ),
-                                    width="100%",
-                                    padding="10px",
-                                    flex="1"
+                                CMP.bar_chart_box(
+                                    CMP.bar_chart(
+                                        State.f1_bar_fig
+                                    )
                                 ),
                                 width="100%",
                                 height="100%"
                             ),
                             # [View 4] F2 Pie Chart 화면 (자원 현황)
                             rx.vstack(
-                                # 1. 상단: 뒤로가기 버튼
-                                rx.box(
-                                    rx.button(
-                                        "← 이전",
-                                        on_click=State.toggle_f2_chart,
-                                        color_scheme="gray",
-                                        variant="outline",
-                                        color="#333333",
-                                        font_weight="bold",
-                                        margin_bottom="70px"
-                                    ),
-                                    align_items="left",
-                                    width="100%",
-                                    padding="20px"
+                                CMP.back_button(
+                                    State.toggle_f2_chart
                                 ),
-                                # 2. 메인 콘텐츠: 파이차트 및 하단 정보 (Box)
-                                rx.box(
-                                    # (1) 파이차트 나열 (Flex)
-                                    rx.flex(
-                                        rx.foreach(
-                                            State.f2_pie_figs,
-                                            lambda fig: rx.box(
-                                                rx.plotly(
-                                                    data=fig,
-                                                    config={"displayModeBar": False},
-                                                    use_resize_handler=True
-                                                ),
-                                                width="320px",
-                                                min_width="320px",
-                                                height="300px",
-                                                margin="5px",
-                                                overflow="hidden"
-                                            )
-                                        ),
-                                        wrap="wrap",
-                                        spacing="4",
-                                        justify="center",
-                                        width="100%"
-                                    ),
-                                    width="100%",
-                                    padding="10px",
-                                    overflow_y="auto"
+                                CMP.pie_chart_grid(
+                                    State.f2_pie_figs
                                 ),
                                 rx.box(
-                                    rx.text(
-                                        f"* 발췌일자: 2025.12.1.",
-                                        font_size="16px",
-                                        color="#1B1B1B",
-                                        font_weight="bold",
-                                        text_align="left",
+                                    CMP.date_text(
+                                        Text.F2_DATE
                                     ),
-                                    width="100%",
-                                    padding="20px",
-                                    padding_top="10px"
+                                    margin_top="-200px"
                                 ),
                                 width="100%",
                                 height="100%",
+                                spacing="0",
                                 style={
-                                    "zoom": "0.978",  # Chrome, Edge 등에서 90% 축소 효과
-                                }
+                                    "zoom": "0.978",
+                                },
+                                padding="20px"
                             )
                         ),
-
                     )
                 )
             ),
             align_items="center",
-            width="60%",
+            width="60%", # 차트 화면 비율
             height="100vh",
             overflow="flex",
             z_index="1"
@@ -533,7 +433,6 @@ global_style = {
         "font_size": "13px !important",
         "padding": "4px !important",
         "text_align": "center !important",
-        #"background_color": "#b0b0b0 !important",
         "color" : "#000000 !important"
     },
     # 2. 테이블 데이터 칸 (Cell)
