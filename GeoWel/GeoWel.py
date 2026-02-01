@@ -198,91 +198,8 @@ def index() -> rx.Component:
                             ),
 
                             # 2. main 테이블
-                            rx.box(
-                                rx.table.root(
-                                    rx.table.header(
-                                        # [Row 1] 대분류
-                                        rx.table.row(
-                                            rx.table.column_header_cell("구분", row_span=2, vertical_align="middle",
-                                                                        text_align="center", bg="#e9e9e9",
-                                                                        border_right="2px solid #ffffff"),
-                                            rx.table.column_header_cell("1) 신청 및 연계 현황(명)", vertical_align="middle",
-                                                                        col_span=3, text_align="center",
-                                                                        bg="#d7f0bd", border_bottom="2px solid #ffffff",
-                                                                        border_right="2px solid #ffffff"),
-                                            rx.table.column_header_cell("2) 자원 현황(건)", vertical_align="middle",
-                                                                        col_span=5, text_align="center",
-                                                                        bg="#fff5b1", border_bottom="2px solid #ffffff",
-                                                                        border_right="2px solid #ffffff"),
-                                            rx.table.column_header_cell("3) 퇴원환자 지원 현황(개, %, 건)",
-                                                                        vertical_align="middle", col_span=3,
-                                                                        text_align="center",
-                                                                        bg="#ffd3a7",
-                                                                        border_bottom="2px solid #ffffff"),
-                                        ),
-                                        # [Row 2] 소분류
-                                        rx.table.row(
-                                            # 신청 하위
-                                            rx.table.column_header_cell("신청자", vertical_align="middle", bg="#d7f0bd",
-                                                                        text_align="center",
-                                                                        font_size="0.9em",
-                                                                        border_right="2px solid #ffffff"),
-                                            rx.table.column_header_cell("통합판정완료", vertical_align="middle", bg="#d7f0bd",
-                                                                        text_align="center",
-                                                                        font_size="0.9em",
-                                                                        border_right="2px solid #ffffff"),
-                                            rx.table.column_header_cell("서비스연계", vertical_align="middle", bg="#d7f0bd",
-                                                                        text_align="center",
-                                                                        font_size="0.9em",
-                                                                        border_right="2px solid #ffffff"),
-                                            # 자원 하위
-                                            rx.table.column_header_cell("보건의료", vertical_align="middle", bg="#fff5b1",
-                                                                        text_align="center",
-                                                                        font_size="0.9em",
-                                                                        border_right="2px solid #ffffff"),
-                                            rx.table.column_header_cell("장기요양", vertical_align="middle", bg="#fff5b1",
-                                                                        text_align="center",
-                                                                        font_size="0.9em",
-                                                                        border_right="2px solid #ffffff"),
-                                            rx.table.column_header_cell("생활지원", vertical_align="middle", bg="#fff5b1",
-                                                                        text_align="center",
-                                                                        font_size="0.9em",
-                                                                        border_right="2px solid #ffffff"),
-                                            rx.table.column_header_cell("주거지원", vertical_align="middle", bg="#fff5b1",
-                                                                        text_align="center",
-                                                                        font_size="0.9em",
-                                                                        border_right="2px solid #ffffff"),
-                                            rx.table.column_header_cell("자체사업", vertical_align="middle", bg="#fff5b1",
-                                                                        text_align="center",
-                                                                        font_size="0.9em",
-                                                                        border_right="2px solid #ffffff"),
-                                            # 퇴원환자 하위
-                                            rx.table.column_header_cell("요양병원수", vertical_align="middle", bg="#ffd3a7",
-                                                                        text_align="center",
-                                                                        font_size="0.9em",
-                                                                        border_right="2px solid #ffffff"),
-                                            rx.table.column_header_cell("관외환자 입원율", vertical_align="middle",
-                                                                        bg="#ffd3a7", text_align="center",
-                                                                        font_size="0.9em",
-                                                                        border_right="2px solid #ffffff"),
-                                            rx.table.column_header_cell("자원연계건수", vertical_align="middle", bg="#ffd3a7",
-                                                                        text_align="center",
-                                                                        font_size="0.9em"),
-                                        ),
-                                    ),
-
-                                    rx.table.body(
-                                        rx.foreach(
-                                            State.main_data,
-                                            render_main_row
-                                        )
-                                    ),
-                                    width="100%",
-                                    variant="surface",
-                                ),
-                                flex="1",
-                                overflow="auto",
-                                margin_left="0px"
+                            CMP.main_data_table(
+                                State.main_table_data
                             ),
                             width="100%",
                             align_items="start",
@@ -390,42 +307,6 @@ def index() -> rx.Component:
 
         width="100%",
         spacing="0"
-    )
-
-# main table
-def render_main_row(row: dict):
-    row_border_style = "1.5px solid #E2E2E2"
-    highlight_row = "전국"
-    text_color = rx.cond(
-        row["구분_Unnamed: 0_level_1"] == highlight_row,
-        "#0069e3",
-        "#333333"
-    )
-    return rx.table.row(
-        # 1. 구분
-        rx.table.cell(row["구분_Unnamed: 0_level_1"], text_align="center", border_right=row_border_style),
-
-        # 2. 신청 및 연계 현황
-        rx.table.cell(row["신청 및 연계 현황 (명)_신청자"], text_align="right", border_right=row_border_style),
-        rx.table.cell(row["신청 및 연계 현황 (명)_통합판정완료"], text_align="right", border_right=row_border_style),
-        rx.table.cell(row["신청 및 연계 현황 (명)_서비스연계"], text_align="right", border_right=row_border_style),
-
-        # 3. 자원 현황
-        rx.table.cell(row["자원 현황 (건)_보건의료"], text_align="right", border_right=row_border_style),
-        rx.table.cell(row["자원 현황 (건)_장기요양"], text_align="right", border_right=row_border_style),
-        rx.table.cell(row["자원 현황 (건)_생활지원"], text_align="right", border_right=row_border_style),
-        rx.table.cell(row["자원 현황 (건)_주거지원"], text_align="right", border_right=row_border_style),
-        rx.table.cell(row["자원 현황 (건)_자체사업"], text_align="right", border_right=row_border_style),
-
-        # 4. 퇴원환자 지원 현황
-        rx.table.cell(row["퇴원환자 지원 현황 (개, %, 건)_요양병원수"], text_align="right", border_right=row_border_style),
-        rx.table.cell(row["퇴원환자 지원 현황 (개, %, 건)_관외환자 입원율"], text_align="right", border_right=row_border_style),
-        rx.table.cell(row["퇴원환자 지원 현황 (개, %, 건)_자원연계건수"], text_align="right"),
-
-        height="37px",
-        align="center",
-        _hover={"bg": "#f5f5f5"},
-        color=text_color
     )
 
 global_style = {

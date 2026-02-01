@@ -1,5 +1,5 @@
 import reflex as rx
-from .styles import Button, Chart, Date, Text, Title, Map
+from .styles import Button, Chart, Date, Text, Title, Map, Table, Color
 
 # [Back] 이전 버튼
 def back_button(on_click_handler):
@@ -157,4 +157,100 @@ def map_box(child_component, mount):
         child_component,
         **Map.MAP_BOX_WRAPPER,
         on_mount=mount
+    )
+
+# [Main Table] 테이블 헤더
+def render_table_header():
+    # 대분류
+    row1_cells = [
+        rx.table.column_header_cell("구분", **Table.SECTION_CELL)
+    ]
+    for group in Table.HEADERS:
+        row1_cells.append(
+            rx.table.column_header_cell(
+                group["title"],
+                bg=group["bg"],
+                col_span=len(group["columns"]),
+                **Table.HEADER_CELL
+            )
+        )
+
+    # 소분류
+    row2_cells = []
+    for group in Table.HEADERS:
+        for col_name in group["columns"]:
+            row2_cells.append(
+                rx.table.column_header_cell(
+                    col_name,
+                    bg=group["bg"],
+                    **Table.SUB_HEADER_CELL
+                )
+            )
+
+    return rx.table.header(
+        rx.table.row(*row1_cells),
+        rx.table.row(*row2_cells)
+    )
+
+# [Main Table] 테이블 데이터
+def render_main_row(row: dict):
+    # 데이터 셀 생성
+    row_text_color = rx.cond(
+        row[Table.LABEL_COLUMN_KEY] == Table.HIGHLIGHT_KEYWORD,
+        Color.MAP_MAIN,
+        Color.BASIC_TEXT
+    )
+
+    cells = []
+    # 1) 구분 셀
+    cells.append(
+        rx.table.cell(
+            row[Table.LABEL_COLUMN_KEY],
+            **Table.SECTION_LABEL_CELL
+        )
+    )
+
+    # 2) 데이터 셀
+    last_idx = len(Table.DATA_COLUMN_KEYS) - 1
+
+    for idx, key in enumerate(Table.DATA_COLUMN_KEYS):
+        cell_style = Table.DATA_CELL.copy()
+
+        # 마지막 컬럼이면 우측 테두리 제거
+        if idx == last_idx:
+            cell_style["border_right"] = "none"
+
+        cells.append(
+            rx.table.cell(
+                row[key],
+                **cell_style
+            )
+        )
+
+    return rx.table.row(
+        *cells,
+        color=row_text_color,
+        **Table.ROW
+    )
+
+# [Main Table] 메인 테이블 컴포넌트
+def main_data_table(data):
+    return rx.box(
+        rx.table.root(
+            # 1) 헤더 렌더링
+            render_table_header(),
+
+            # 2) 바디 렌더링 (State 데이터 연결)
+            rx.table.body(
+                rx.foreach(
+                    data,
+                    render_main_row
+                )
+            ),
+            width="100%",
+            variant="surface",
+        ),
+        flex="1",
+        overflow="auto",
+        margin_left="0px"
     )

@@ -67,8 +67,8 @@ class State(rx.State):
     # 상태 관리: main, f0, f1
     current_view: str = "main"
 
-    # main 데이터
-    main_data: list[dict] = []
+    # main 테이블 데이터
+    main_table_data: list[dict] = []
     main_columns: list = []
 
     # 차트
@@ -122,7 +122,7 @@ class State(rx.State):
         self.selected_region_kr = ""
         self.selected_region_code = 0.0
 
-        self.load_main_data()
+        self.load_main_table_data()
         self.current_view = "main"
 
         self.is_loaded = True
@@ -136,9 +136,9 @@ class State(rx.State):
             p_id = p['id'].lower()
             p['name_kr'] = self.REGION_MAPPING.get(p_id, p['name'])
 
-    def load_main_data(self):
+    def load_main_table_data(self):
         file_path = "assets/layout.xlsx"
-        self.main_data, self.main_columns = get_main_table(file_path)
+        self.main_table_data, self.main_columns = get_main_table(file_path)
 
     def handle_map_click(self, item: dict):
         clicked_id = item['id'].lower()

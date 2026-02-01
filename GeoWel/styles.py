@@ -10,7 +10,10 @@ class Color:
 
     DATE_TEXT = "#1B1B1B" # 진한 회색
     BASIC_TEXT = "#333333" # 회색
-    MAP_BG = "#ffffff"
+    MAP_BG = "#ffffff" # 더 연한 회색
+
+    SECTION_BG = "#e9e9e9" # 더더 연한 회색
+    TABLE_BG = "#f5f5f5" # 더더더 연한 회색
 
 class Button:
     btn_back_style = {
@@ -214,3 +217,88 @@ class Map:
         "position": "relative",
         "z_index": "999"
     }
+
+class Table:
+    # main 테이블 공통 헤더
+    HEADER_CELL = {
+        "vertical_align": "middle",
+        "text_align": "center",
+        "border_right": "2px solid #ffffff", # 오른쪽 테두리
+        "border_bottom": "2px solid #ffffff" # 아래쪽 테두리
+    }
+
+    # main 테이블 소분류
+    SUB_HEADER_CELL = {
+        **HEADER_CELL,
+        "font_size": "0.9em",
+        "border_bottom": "none"
+    }
+
+    # (구분) 칸: 구분
+    SECTION_CELL = {
+        **HEADER_CELL,
+        "bg": Color.SECTION_BG,
+        "row_span": 2 # (구분) 칸: 대분류, 소분류 행을 합침
+    }
+
+    # main 테이블 행(row) 공통
+    ROW = {
+        "height": "37px",
+        "align": "center",
+        "_hover": {"bg": Color.TABLE_BG}
+    }
+
+    # main 테이블 데이터 셀
+    DATA_CELL = {
+        "text_align": "right",
+        "border_right": f"1.5px solidv {Color.TABLE_BG}"
+    }
+
+    # main 테이블 (구분) 셀: 서울, 경기 등
+    SECTION_LABEL_CELL = {
+        "text_align": "center",
+        "border_right": "1.5px solid #E2E2E2",
+        "vertical_align": "middle"
+    }
+
+    # main 테이블 구조
+    HEADERS = [
+        {
+            "title": "1) 신청 및 연계 현황(명)",
+            "bg": "#d7f0bd",
+            "columns": ["신청자", "통합판정완료", "서비스연계"]
+        },
+        {
+            "title": "2) 자원 현황(건)",
+            "bg": "#fff5b1",
+            "columns": ["보건의료", "장기요양", "생활지원", "주거지원", "자체사업"]
+        },
+        {
+            "title": "3) 퇴원환자 지원 현황(개, %, 건)",
+            "bg": "#ffd3a7",
+            "columns": ["요양병원수", "관외환자 입원율", "자원연계건수"]
+        }
+    ]
+
+    # 강조할 행
+    HIGHLIGHT_KEYWORD = "전국"
+
+    LABEL_COLUMN_KEY = "구분_Unnamed: 0_level_1"
+    DATA_COLUMN_KEYS = [
+        # 신청 및 연계
+        "신청 및 연계 현황 (명)_신청자",
+        "신청 및 연계 현황 (명)_통합판정완료",
+        "신청 및 연계 현황 (명)_서비스연계",
+
+        # 자원 현황
+        "자원 현황 (건)_보건의료",
+        "자원 현황 (건)_장기요양",
+        "자원 현황 (건)_생활지원",
+        "자원 현황 (건)_주거지원",
+        "자원 현황 (건)_자체사업",
+
+        # 퇴원환자
+        "퇴원환자 지원 현황 (개, %, 건)_요양병원수",
+        "퇴원환자 지원 현황 (개, %, 건)_관외환자 입원율",
+        "퇴원환자 지원 현황 (개, %, 건)_자원연계건수"
+    ]
